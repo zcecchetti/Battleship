@@ -1,0 +1,80 @@
+The goal of this document is to clearly articulate and plan out the development
+process for this game. I will use this to refer back to at times when I am 
+deciding what modules to work on next. This should also help plan out the role of
+specific functions.
+
+Since the goal of this project is also to use TDD to guide the development process,
+I will be writing a test, making the code pass, and then repeat the process
+
+1. Write a test that calls a createShip function to create ship objects
+    - passes if the function returns shipArray of the correct length
+
+2. Write a function that creates the ship objects and passes the test
+    - returnShip method returns shipArray
+
+3. Write four tests to check the methods of the ship objects
+    - one test passes if ship is hit and returnShip shows hit marker in correct location
+    - one test passes if isSunk returns "false" after hit method is called and ship has unmarked spaces
+    - one test passes if isSunk returns "true" after hit method is called on last unmarked space
+
+4. Write the methods needed to pass the four previous tests
+    - hit writes a hit marker at the selected space
+    - isSunk returns a boolean value showing whether or not the ship has been isSunk
+    - if isSunk is true, hit markers replaced with sunk markers on shipArray
+
+5. Write a test that calls a createGameboard function to create the gameboard object
+    - passes if returnBoard method returns the gameboard  as a set of 10 arrays, all with a
+        length of 10, in the gameboardArray
+
+6. Write the factory function to create the gameboard and pass the aforementioned test
+
+7. Write three tests to call a gameboard method that places the ships on the board
+    - one test passes if the method places the ship in the correct length and direction
+    - one test passes if placing a ship too close to an edge with not enough
+        spaces throws the error "not enough spaces"
+    - one test passes if placing a ship over another already placed ship throws
+        the error "cannot place over other ship"
+
+8. Write the methods needed to pass the previous three tests
+    - setShip method should take a starting index as well as ship length to determine
+        where and in what direction to place the ships
+    - isValidPlacement method should check if a proposed ship placement will place some part of the
+        ship off of the gameboard or if the new ship placement overlaps with another ship
+    - isValidPlacement will be called by the setShip method before a ship is placed
+    - if ship is set on board, setShip should call returnBoard
+
+9. Write four tests to call a receiveAttack method
+    - one test passes if the gameboard is updated with the correct hit marker if a ship 
+        is hit
+    - one test passes if attackValidity returns "false" on previously hit space
+    - one test passes if returnBoard shows missed marker in correct spot for a missed attack
+    - one test passes if returnBoard shows sunk markers for a ship is isSunk returns true
+
+10. Write the receiveAttack method to pass the previous four tests
+    - should take a pair of coordinates as arguments
+    - should determine attackValidity by checking if space has been previously selected
+    - when a ship is hit, should update gameboard in corresponding space with a hit marker
+    - when a ship is sunk, should update gameboard with sunk markers for all of respective ship's spaces
+    - when ship is missed, update gameboard in corresponding space with missed marker
+
+11. Write two tests to call isWinner method
+    - one test passes if one player has sunk all the opponents ships and the method returns "true"
+    - one test passes if neither player has sunk all their oppenents ships and the method returns "false"
+
+12. Write the isWinner method
+    - should be called every time the hit method is called
+
+13. Write three tests to call receiveAttack when one player attacks another
+    - passes if correct player's gameboardArray is updated with correct marker
+    - one test passes if returnUserBoard shows all markers on gameboardArray
+    - one test passes if returnOpponentBoard shows only missed attacks, hits, and sunk ships on gameBoardArray
+
+14. Write createPlayer object and methods to interact between players
+    - should call createGameboard each time player is created
+    - gameboardArray is unique to each player
+    - attackPlayer method calls receiveAttack method of opposite player and attack coordinates
+    - returnUserBoard should show all missed attacks, all ships, and all ship hits on users side
+    - returnOpponentBoard should show all missed attacks,all ship hits, and all sunk ships
+
+15. Write test to call computerHit
+    - passes if computer selects valid space to hit and returnBoard updates correct marker to correct space
