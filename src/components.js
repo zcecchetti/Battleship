@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
 /* eslint-disable no-unreachable-loop */
 /* eslint-disable no-plusplus */
@@ -29,6 +30,50 @@ function createShip(length) {
   return { returnArray, hit, isSunk };
 }
 
-const smallShip = createShip(3);
+function gameboard() {
+  const gameboardArray = [];
 
-export { smallShip };
+  const createBoard = function () {
+    const gameRow = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'];
+    for (let i = 0; i < 10; i++) {
+      gameboardArray[i] = gameRow;
+    }
+    return gameboardArray;
+  };
+
+  const returnBoard = () => gameboardArray;
+
+  const isValidPlacement = function (length, direction, i, j) {
+    if (direction === 'h') {
+      if (length + i > 9) {
+        throw 'Not enough spaces';
+      }
+    } else if (direction === 'v') {
+      if (length + j > 9) {
+        throw 'Not enough spaces';
+      }
+    }
+  };
+
+  const newShip = function (length, direction, i, j) {
+    try {
+      isValidPlacement(length, direction, i, j);
+      const ship = createShip(length);
+      if (direction === 'h') {
+        const row = gameboardArray[j];
+        for (let shipIndex = 0; shipIndex < length; shipIndex++) {
+          row[i + shipIndex] = '0';
+        }
+      }
+      return gameboardArray;
+    } catch (err) {
+      return err.message;
+    }
+  };
+
+  return {
+    createBoard, returnBoard, isValidPlacement, newShip,
+  };
+}
+
+export { createShip, gameboard };
