@@ -61,16 +61,17 @@ function gameboard() {
   };
 
   // call check if userSelected space is valid and call createShip to place new ship
-  const newShip = function (length, direction, i, j) {
+  const placeShip = function (shipObject, direction, i, j) {
     try {
+      const { length } = shipObject.returnArray();
       isValidPlacement(length, direction, i, j);
 
       // place boat either horizontally or vertically in gameboardArray
       for (let n = 0; n < length; n++) {
         if (direction === 'h') {
-          gameboardArray[j][i + n] = 'h';
+          gameboardArray[j][i + n] = { shipObject: n };
         } else if (direction === 'v') {
-          gameboardArray[j + n][i] = 'h';
+          gameboardArray[j + n][i] = { shipObject: n };
         }
       }
       return gameboardArray;
@@ -80,7 +81,7 @@ function gameboard() {
   };
 
   return {
-    createBoard, returnBoard, isValidPlacement, newShip,
+    createBoard, returnBoard, isValidPlacement, placeShip,
   };
 }
 

@@ -48,12 +48,13 @@ describe('Tests gameboard factory function and methods', () => {
   });
 
   test('Creates a new ship and places it horizontally on gameboardArray', () => {
-    expect(gameboardArray.newShip(3, 'h', 3, 4)).toEqual([
+    const shipOne = createShip(3);
+    expect(gameboardArray.placeShip(shipOne, 'h', 3, 4)).toEqual([
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', 'x', 'x', 'h', 'h', 'h', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -62,15 +63,16 @@ describe('Tests gameboard factory function and methods', () => {
   });
 
   test('Creates a new ship and places it vertically on gameboardArray', () => {
-    expect(gameboardArray.newShip(3, 'v', 7, 4)).toEqual([
+    const shipTwo = createShip(4);
+    expect(gameboardArray.placeShip(shipTwo, 'v', 7, 4)).toEqual([
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', 'x', 'x', 'h', 'h', 'h', 'x', 'h', 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'h', 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'h', 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', { shipObject: 0 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 3 }, 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });
