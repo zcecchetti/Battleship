@@ -1,5 +1,8 @@
 {
   "name": "battleship",
+  "jest": {
+    "verbose": true
+  },
   "version": "1.0.0",
   "description": "Remake of the classic \"Battleship\" game. TDD emphasized.",
   "main": "index.js",
