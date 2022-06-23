@@ -40,11 +40,13 @@ describe('Tests gameboard factory function and methods', () => {
   });
 
   test('Tests validity of selected ship placement in horizontal direction', () => {
-    expect(() => { gameboardArray.isValidPlacement(4, 'h', 8, 7); }).toThrow('Not enough spaces');
+    const rejectShip1 = createShip(4);
+    expect(() => { gameboardArray.isValidPlacement(rejectShip1, 'h', 7, 4); }).toThrow('Not enough spaces');
   });
 
   test('Tests validity of selected ship placement in vertical direction', () => {
-    expect(() => { gameboardArray.isValidPlacement(4, 'v', 8, 7); }).toThrow('Not enough spaces');
+    const rejectShip2 = createShip(4);
+    expect(() => { gameboardArray.isValidPlacement(rejectShip2, 'v', 8, 7); }).toThrow('Not enough spaces');
   });
 
   test('Creates a new ship and places it horizontally on gameboardArray', () => {
@@ -75,5 +77,15 @@ describe('Tests gameboard factory function and methods', () => {
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 3 }, 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
+
+  test('Throws error if user selected horizontal placement is over another ship', () => {
+    const shipThree = createShip(2);
+    expect(() => { gameboardArray.isValidPlacement(shipThree, 'h', 2, 4); }).toThrow('Cannot place over other ship');
+  });
+
+  test('Throws error if user selected vertical placement is over another ship', () => {
+    const shipFour = createShip(2);
+    expect(() => { gameboardArray.isValidPlacement(shipFour, 'v', 4, 3); }).toThrow('Cannot place over other ship');
   });
 });

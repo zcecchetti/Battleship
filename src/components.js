@@ -48,7 +48,9 @@ function gameboard() {
   const returnBoard = () => gameboardArray;
 
   // check if user selected ship placement is valid selection
-  const isValidPlacement = function (length, direction, i, j) {
+  const isValidPlacement = function (shipObject, direction, i, j) {
+    const { length } = shipObject.returnArray();
+    // ship does not fit within gameboardArray
     if (direction === 'h') {
       if (length + i > 9) {
         throw 'Not enough spaces';
@@ -58,13 +60,23 @@ function gameboard() {
         throw 'Not enough spaces';
       }
     }
+    // ship placed over pre-existing ship
+    for (let n = 0; n < length; n++) {
+      if (direction === 'h') {
+        if (typeof (gameboardArray[j][i + n]) === 'object') {
+          throw 'Cannot place over other ship';
+        }
+      } else if (typeof (gameboardArray[j + n][i]) === 'object') {
+        throw 'Cannot place over other ship';
+      }
+    }
   };
 
-  // call check if userSelected space is valid and call createShip to place new ship
+  // check if user selected placement is valid and add ship to gameboardArray
   const placeShip = function (shipObject, direction, i, j) {
     try {
+      isValidPlacement(shipObject, direction, i, j);
       const { length } = shipObject.returnArray();
-      isValidPlacement(length, direction, i, j);
 
       // place boat either horizontally or vertically in gameboardArray
       for (let n = 0; n < length; n++) {
@@ -76,7 +88,7 @@ function gameboard() {
       }
       return gameboardArray;
     } catch (err) {
-      return err.message;
+      return err;
     }
   };
 
