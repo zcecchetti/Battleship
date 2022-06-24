@@ -89,3 +89,25 @@ describe('Tests gameboard factory function and methods', () => {
     expect(() => { gameboardArray.isValidPlacement(shipFour, 'v', 4, 3); }).toThrow('Cannot place over other ship');
   });
 });
+
+describe('Tests attack methods and interactions between ship objects and gameboard object', () => {
+  const gameboardArray = gameboard();
+  gameboardArray.createBoard();
+  const shipOne = createShip(3);
+  const shipTwo = createShip(4);
+  gameboardArray.placeShip(shipOne, 'h', 1, 3);
+  gameboardArray.placeShip(shipTwo, 'v', 7, 4);
+  test('Checks that receiveAttack method will place a missed point on the gameboard in the correct space', () => {
+    expect(gameboardArray.receiveAttack(1, 5)).toEqual([
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 0 }, 'x', 'x'],
+      ['x', 'M', 'x', 'x', 'x', 'x', 'x', { shipObject: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 3 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
+});

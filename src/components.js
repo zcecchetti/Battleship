@@ -33,7 +33,7 @@ function createShip(length) {
   return { returnArray, hit, isSunk };
 }
 
-// factory function to create new gameboard object
+// factory function for gameboard object
 function gameboard() {
   // array to hold gameboard
   const gameboardArray = [];
@@ -92,8 +92,17 @@ function gameboard() {
     }
   };
 
+  const receiveAttack = function (i, j) {
+    if (gameboardArray[j][i] === 'H') {
+      gameboardArray[j][i] = 'H';
+    } else if (gameboardArray[j][i] === 'x') {
+      gameboardArray[j][i] = 'M';
+    }
+    return gameboardArray;
+  };
+
   return {
-    createBoard, returnBoard, isValidPlacement, placeShip,
+    createBoard, returnBoard, isValidPlacement, placeShip, receiveAttack,
   };
 }
 

@@ -28,20 +28,20 @@ I will be writing a test, making the code pass, and then repeat the process
 
 6. Write the factory function to create the gameboard and pass the aforementioned test
 
-7. Write five tests to call a gameboard method that places the ships on the board
+7. Write six tests to call a gameboard method that places the ships on the board
     - two tests pass if the method places the ship in the correct length and direction 
         (horizontal and vertical)
     - two tests pass if placing a ship too close to an edge with not enough
         spaces throws the error "not enough spaces" (test verical and horizontal)
-    - one test passes if placing a ship over another already placed ship throws
+    - two tests passes if placing a ship over another already placed ship throws
         the error "cannot place over other ship"
 
-8. Write the methods needed to pass the previous five tests
-    - setShip method should take a starting index as well as ship length to determine
+8. Write the methods needed to pass the previous six tests
+    - placeShip method should take a starting index as well as ship length to determine
         where and in what direction to place the ships
     - isValidPlacement method should check if a proposed ship placement will place some part of the
         ship off of the gameboard or if the new ship placement overlaps with another ship
-    - isValidPlacement will be called by the setShip method before a ship is placed
+    - isValidPlacement will be called by the placeShip method before a ship is placed
     - if ship is set on board, setShip should call returnBoard
 
 9. Write four tests to call a receiveAttack method
