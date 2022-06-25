@@ -81,9 +81,9 @@ function gameboard() {
       // place boat either horizontally or vertically in gameboardArray
       for (let n = 0; n < length; n++) {
         if (direction === 'h') {
-          gameboardArray[j][i + n] = { object: shipObject, index: n };
+          gameboardArray[j][i + n] = { object: shipObject, index: n, direction };
         } else if (direction === 'v') {
-          gameboardArray[j + n][i] = { object: shipObject, index: n };
+          gameboardArray[j + n][i] = { object: shipObject, index: n, direction };
         }
       }
       return gameboardArray;
@@ -98,7 +98,11 @@ function gameboard() {
     }
   };
 
-  // const isShipSunk = function (i,)
+  const isShipSunk = function (i, j) {
+    const shipObject = Object.values(gameboardArray[j][i])[0];
+    const isSunk = shipObject.isSunk();
+    return isSunk;
+  };
 
   const receiveAttack = function (i, j) {
     try {
@@ -108,6 +112,9 @@ function gameboard() {
         const shipObject = Object.values(gameboardArray[j][i])[0];
         shipObject.hit(shipIndex);
 
+        if (isShipSunk(i, j)) {
+          gameboardArray[j][i].index = 'S';
+        }
         gameboardArray[j][i].index = 'H';
       } else if (gameboardArray[j][i] === 'x') {
         gameboardArray[j][i] = 'M';
