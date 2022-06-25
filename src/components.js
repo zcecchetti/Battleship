@@ -98,8 +98,7 @@ function gameboard() {
     }
   };
 
-  const isShipSunk = function (i, j) {
-    const shipObject = Object.values(gameboardArray[j][i])[0];
+  const isShipSunk = function (shipObject) {
     const isSunk = shipObject.isSunk();
     return isSunk;
   };
@@ -108,14 +107,25 @@ function gameboard() {
     try {
       isValidAttack(i, j);
       if (typeof (gameboardArray[j][i]) === 'object') {
-        const shipIndex = Object.values(gameboardArray[j][i])[1];
-        const shipObject = Object.values(gameboardArray[j][i])[0];
+        const shipIndex = gameboardArray[j][i].index;
+        const shipObject = gameboardArray[j][i].object;
         shipObject.hit(shipIndex);
-
-        if (isShipSunk(i, j)) {
-          gameboardArray[j][i].index = 'S';
+        if (isShipSunk(shipObject) === true) {
+          const { direction } = gameboardArray[j][i];
+          for (let n = 0; n < 9; n++) {
+            if (direction === 'h') {
+              if (gameboardArray[j][n].object === shipObject) {
+                gameboardArray[j][n].index = 'S';
+              }
+            } else if (direction === 'v') {
+              if (gameboardArray[n][i] === shipObject) {
+                gameboardArray[n][i].index = 'S';
+              }
+            }
+          }
+        } else {
+          gameboardArray[j][i].index = 'H';
         }
-        gameboardArray[j][i].index = 'H';
       } else if (gameboardArray[j][i] === 'x') {
         gameboardArray[j][i] = 'M';
       }
