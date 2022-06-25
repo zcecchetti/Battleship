@@ -25,6 +25,8 @@ describe('Tests for createShip factory function and methods', () => {
 
 describe('Tests gameboard factory function and methods', () => {
   const gameboardArray = gameboard();
+  const shipOne = createShip(3);
+  const shipTwo = createShip(4);
   test('Calls createGameboard function and returns 10x10 gameboardArray', () => {
     expect(gameboardArray.createBoard()).toEqual([
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -50,13 +52,12 @@ describe('Tests gameboard factory function and methods', () => {
   });
 
   test('Creates a new ship and places it horizontally on gameboardArray', () => {
-    const shipOne = createShip(3);
     expect(gameboardArray.placeShip(shipOne, 'h', 3, 4)).toEqual([
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', 'x', 'x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', { object: shipOne, index: 0 }, { object: shipOne, index: 1 }, { object: shipOne, index: 2 }, 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
@@ -65,16 +66,15 @@ describe('Tests gameboard factory function and methods', () => {
   });
 
   test('Creates a new ship and places it vertically on gameboardArray', () => {
-    const shipTwo = createShip(4);
     expect(gameboardArray.placeShip(shipTwo, 'v', 7, 4)).toEqual([
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', 'x', 'x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', { shipObject: 0 }, 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 1 }, 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 2 }, 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 3 }, 'x', 'x'],
+      ['x', 'x', 'x', { object: shipOne, index: 0 }, { object: shipOne, index: 1 }, { object: shipOne, index: 2 }, 'x', { object: shipTwo, index: 0 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 3 }, 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });
@@ -102,11 +102,53 @@ describe('Tests attack methods and interactions between ship objects and gameboa
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', { shipObject: 0 }, { shipObject: 1 }, { shipObject: 2 }, 'x', 'x', 'x', 'x', 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 0 }, 'x', 'x'],
-      ['x', 'M', 'x', 'x', 'x', 'x', 'x', { shipObject: 1 }, 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 2 }, 'x', 'x'],
-      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { shipObject: 3 }, 'x', 'x'],
+      ['x', { object: shipOne, index: 0 }, { object: shipOne, index: 1 }, { object: shipOne, index: 2 }, 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 0 }, 'x', 'x'],
+      ['x', 'M', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 3 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
+
+  test('Checks that isValidAttack will throw error if user selects already targeted space', () => {
+    expect(() => { gameboardArray.isValidAttack(1, 5); }).toThrow('Cannot attack already targeted space');
+  });
+
+  test('Checks that receiveAttack method updates gameboard with hit marker in correct space', () => {
+    expect(gameboardArray.receiveAttack(1, 3)).toEqual([
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', { object: shipOne, index: 'H' }, { object: shipOne, index: 1 }, { object: shipOne, index: 2 }, 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 0 }, 'x', 'x'],
+      ['x', 'M', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 3 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
+
+  test('Checks that receiveAttack method places hit marker on correct shipArray space', () => {
+    expect(shipOne.returnArray()).toEqual(['h', '0', '0']);
+  });
+
+  test('Checks that isSunk attribute will be true after ship receives attack on all spaces', () => {
+    gameboardArray.receiveAttack(2, 3);
+    gameboardArray.receiveAttack(3, 3);
+    expect(shipOne.isSunk()).toBe(true);
+  });
+
+  test('Checks that gameboardArray will update hit markers with sunk markers if isSunk is true', () => {
+    expect(gameboardArray.returnBoard()).toEqual([
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', { object: shipOne, index: 'S' }, { object: shipOne, index: 'S' }, { object: shipOne, index: 'S' }, 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 0 }, 'x', 'x'],
+      ['x', 'M', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 1 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 2 }, 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', { object: shipTwo, index: 3 }, 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });

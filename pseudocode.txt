@@ -47,7 +47,9 @@ I will be writing a test, making the code pass, and then repeat the process
 9. Write four tests to call a receiveAttack method
     - one test passes if the gameboard is updated with the correct hit marker if a ship 
         is hit
-    - one test passes if attackValidity returns "false" on previously hit space
+    - one test passes if attackValidity throws error on previously hit space
+    - one test passes if ship is updated with hit marker in correct space when hit
+    - one test passes if isSunk attribute is updated when ship is sunk
     - one test passes if returnBoard shows missed marker in correct spot for a missed attack
     - one test passes if returnBoard shows sunk markers for a ship is isSunk returns true
 
@@ -55,7 +57,9 @@ I will be writing a test, making the code pass, and then repeat the process
     - should take a pair of coordinates as arguments
     - should determine attackValidity by checking if space has been previously selected
     - when a ship is hit, should update gameboard in corresponding space with a hit marker
+    - when a ship is hit, should update shipArray in corresponding space with hit marker
     - when a ship is sunk, should update gameboard with sunk markers for all of respective ship's spaces
+    - when a ship is sunk, should update isSunk in correct ship object
     - when ship is missed, update gameboard in corresponding space with missed marker
 
 11. Write two tests to call isWinner method

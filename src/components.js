@@ -81,9 +81,9 @@ function gameboard() {
       // place boat either horizontally or vertically in gameboardArray
       for (let n = 0; n < length; n++) {
         if (direction === 'h') {
-          gameboardArray[j][i + n] = { shipObject: n };
+          gameboardArray[j][i + n] = { object: shipObject, index: n };
         } else if (direction === 'v') {
-          gameboardArray[j + n][i] = { shipObject: n };
+          gameboardArray[j + n][i] = { object: shipObject, index: n };
         }
       }
       return gameboardArray;
@@ -92,17 +92,34 @@ function gameboard() {
     }
   };
 
-  const receiveAttack = function (i, j) {
-    if (gameboardArray[j][i] === 'H') {
-      gameboardArray[j][i] = 'H';
-    } else if (gameboardArray[j][i] === 'x') {
-      gameboardArray[j][i] = 'M';
+  const isValidAttack = function (i, j) {
+    if ((gameboardArray[j][i] === 'M') || (Object.values(gameboardArray[j][i])[1] === 'H')) {
+      throw 'Cannot attack already targeted space';
     }
-    return gameboardArray;
+  };
+
+  // const isShipSunk = function (i,)
+
+  const receiveAttack = function (i, j) {
+    try {
+      isValidAttack(i, j);
+      if (typeof (gameboardArray[j][i]) === 'object') {
+        const shipIndex = Object.values(gameboardArray[j][i])[1];
+        const shipObject = Object.values(gameboardArray[j][i])[0];
+        shipObject.hit(shipIndex);
+
+        gameboardArray[j][i].index = 'H';
+      } else if (gameboardArray[j][i] === 'x') {
+        gameboardArray[j][i] = 'M';
+      }
+      return gameboardArray;
+    } catch (err) {
+      return err;
+    }
   };
 
   return {
-    createBoard, returnBoard, isValidPlacement, placeShip, receiveAttack,
+    createBoard, returnBoard, isValidPlacement, placeShip, isValidAttack, receiveAttack,
   };
 }
 
