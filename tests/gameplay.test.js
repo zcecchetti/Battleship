@@ -62,4 +62,19 @@ describe('Tests the player factory function methods and attributes', () => {
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });
+
+  test('Checks showOpponentView for playerOne', () => {
+    playerBoardOne.receiveAttack(2, 3);
+    expect(playerOne.showOpponentView()).toEqual([
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'H', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
 });

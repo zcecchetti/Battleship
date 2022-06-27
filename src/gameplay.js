@@ -45,8 +45,17 @@ const player = function () {
     return playerBoardArray;
   };
 
+  const showOpponentView = function () {
+    return playerBoard.opponentView();
+  };
+
   return {
-    playerBoard, shipObjectArray, isLoser, createPlayerShips, showPlayerBoard,
+    playerBoard,
+    shipObjectArray,
+    isLoser,
+    createPlayerShips,
+    showPlayerBoard,
+    showOpponentView,
   };
 };
 
