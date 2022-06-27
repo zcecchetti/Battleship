@@ -144,7 +144,6 @@ function gameboard() {
               }
             }
           }
-          isLoser();
         } else {
           gameboardArray[j][i].index = 'H';
         }

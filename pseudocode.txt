@@ -62,11 +62,11 @@ I will be writing a test, making the code pass, and then repeat the process
     - when a ship is sunk, should update isSunk in correct ship object
     - when ship is missed, update gameboard in corresponding space with missed marker
 
-11. Write two tests to call isWinner method
+11. Write two tests to call isLoser method
     - one test passes if one player has sunk all the opponents ships and the method returns "true"
     - one test passes if neither player has sunk all their oppenents ships and the method returns "false"
 
-12. Write the isWinner method
+12. Write the isLoser method
     - should be called every time the hit method is called
 
 13. Write three tests to call receiveAttack when one player attacks another
