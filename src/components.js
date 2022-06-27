@@ -140,7 +140,7 @@ function gameboard() {
                 gameboardArray[j][n].index = 'S';
               }
             } else if (direction === 'v') {
-              if (gameboardArray[n][i] === shipObject) {
+              if (gameboardArray[n][i].object === shipObject) {
                 gameboardArray[n][i].index = 'S';
               }
             }
@@ -157,8 +157,36 @@ function gameboard() {
     }
   };
 
+  // create gameboardArray to be seen by opponent
+  const opponentView = function () {
+    const opponentArrayView = [];
+    for (const rowIndex in gameboardArray) {
+      const rowView = [];
+      const row = gameboardArray[rowIndex];
+      for (const spaceIndex in row) {
+        const space = row[spaceIndex];
+        if (typeof (space) === 'string') {
+          rowView.push(space);
+        } else if (space.index === 'S' || space.index === 'H') {
+          rowView.push(space.index);
+        } else {
+          rowView.push('x');
+        }
+      }
+      opponentArrayView.push(rowView);
+    }
+    return opponentArrayView;
+  };
+
   return {
-    createBoard, returnBoard, isValidPlacement, placeShip, isValidAttack, receiveAttack, isLoser,
+    createBoard,
+    returnBoard,
+    isValidPlacement,
+    placeShip,
+    isValidAttack,
+    receiveAttack,
+    isLoser,
+    opponentView,
   };
 }
 

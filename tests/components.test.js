@@ -164,4 +164,18 @@ describe('Tests attack methods and interactions between ship objects and gameboa
     gameboardArray.receiveAttack(7, 7);
     expect(gameboardArray.isLoser()).toBe(true);
   });
+
+  test('opponentView shows only blank space markers, missed markers, hit markers, and sunk markers', () => {
+    expect(gameboardArray.opponentView()).toEqual([
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'S', 'S', 'S', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'S', 'x', 'x'],
+      ['x', 'M', 'x', 'x', 'x', 'x', 'x', 'S', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'S', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'S', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
+      ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
+  });
 });

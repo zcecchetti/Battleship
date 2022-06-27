@@ -5,8 +5,14 @@
 
 import { createShip, gameboard } from './components';
 
+// create array to hold both player objects
+const playerArray = [];
+
 // create player objects
 const player = function () {
+  // add player to playerArray
+  playerArray.push(player);
+
   // create gameboard array for player
   const playerBoard = gameboard();
   const playerBoardArray = playerBoard.createBoard();
