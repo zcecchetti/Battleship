@@ -152,4 +152,16 @@ describe('Tests attack methods and interactions between ship objects and gameboa
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });
+
+  test('Checks that isLoser is called each when isSunk returns true and returns false if other ships are not sunk', () => {
+    gameboardArray.receiveAttack(7, 4);
+    gameboardArray.receiveAttack(7, 5);
+    gameboardArray.receiveAttack(7, 6);
+    expect(gameboardArray.isLoser()).toBe(false);
+  });
+
+  test('Checks that isLoser returns true if all ships on gameboardArray return true for isSunk', () => {
+    gameboardArray.receiveAttack(7, 7);
+    expect(gameboardArray.isLoser()).toBe(true);
+  });
 });

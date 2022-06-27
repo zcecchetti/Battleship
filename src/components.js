@@ -1,3 +1,6 @@
+/* eslint-disable no-continue */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
 /* eslint-disable no-unreachable-loop */
@@ -72,10 +75,14 @@ function gameboard() {
     }
   };
 
+  // array to hold all shipObjects after they have been placed in gameboardArray
+  const shipObjectArray = [];
+
   // check if user selected placement is valid and add ship to gameboardArray
   const placeShip = function (shipObject, direction, i, j) {
     try {
       isValidPlacement(shipObject, direction, i, j);
+      shipObjectArray.push(shipObject);
       const { length } = shipObject.returnArray();
 
       // place boat either horizontally or vertically in gameboardArray
@@ -92,15 +99,29 @@ function gameboard() {
     }
   };
 
+  // check if attack location has already been selected
   const isValidAttack = function (i, j) {
     if ((gameboardArray[j][i] === 'M') || (Object.values(gameboardArray[j][i])[1] === 'H')) {
       throw 'Cannot attack already targeted space';
     }
   };
 
+  // check if ship isSunk attribute is true or false
   const isShipSunk = function (shipObject) {
     const isSunk = shipObject.isSunk();
     return isSunk;
+  };
+
+  // check if all ship objects have been sunk
+  const isLoser = function () {
+    for (const ship in shipObjectArray) {
+      if (shipObjectArray[ship].isSunk()) {
+        continue;
+      } else {
+        return false;
+      }
+    }
+    return true;
   };
 
   const receiveAttack = function (i, j) {
@@ -123,6 +144,7 @@ function gameboard() {
               }
             }
           }
+          isLoser();
         } else {
           gameboardArray[j][i].index = 'H';
         }
@@ -136,7 +158,7 @@ function gameboard() {
   };
 
   return {
-    createBoard, returnBoard, isValidPlacement, placeShip, isValidAttack, receiveAttack,
+    createBoard, returnBoard, isValidPlacement, placeShip, isValidAttack, receiveAttack, isLoser,
   };
 }
 
