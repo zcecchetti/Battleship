@@ -73,6 +73,7 @@ function gameboard() {
         throw 'Cannot place over other ship';
       }
     }
+    return true;
   };
 
   // array to hold all shipObjects after they have been placed in gameboardArray

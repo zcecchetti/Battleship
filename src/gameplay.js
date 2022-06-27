@@ -7,7 +7,9 @@ import { createShip, gameboard } from './components';
 
 // create player objects
 const player = function () {
+  // create gameboard array for player
   const playerBoard = gameboard();
+  const playerBoardArray = playerBoard.createBoard();
   const shipObjectArray = [];
 
   // create 3 ships for player
@@ -33,8 +35,12 @@ const player = function () {
     return true;
   };
 
+  const showPlayerBoard = function () {
+    return playerBoardArray;
+  };
+
   return {
-    playerBoard, shipObjectArray, isLoser, createPlayerShips,
+    playerBoard, shipObjectArray, isLoser, createPlayerShips, showPlayerBoard,
   };
 };
 
