@@ -83,3 +83,5 @@ I will be writing a test, making the code pass, and then repeat the process
 
 15. Write test to call computerHit
     - passes if computer selects valid space to hit and returnBoard updates correct marker to correct space
+
+16. Write method to allow computer to select random valid spot

@@ -49,6 +49,22 @@ const player = function () {
     return playerBoard.opponentView();
   };
 
+  const computerHit = function () {
+    let attackMade = false;
+    let randomi;
+    let randomj;
+    while (attackMade === false) {
+      randomi = Math.floor(Math.random() * 10);
+      randomj = Math.floor(Math.random() * 10);
+      try {
+        playerBoard.receiveAttack(randomi, randomj);
+        attackMade = true;
+      } catch {
+        continue;
+      }
+    }
+    return true;
+  };
   return {
     playerBoard,
     shipObjectArray,
@@ -56,6 +72,7 @@ const player = function () {
     createPlayerShips,
     showPlayerBoard,
     showOpponentView,
+    computerHit,
   };
 };
 

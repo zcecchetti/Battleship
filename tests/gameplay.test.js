@@ -77,4 +77,8 @@ describe('Tests the player factory function methods and attributes', () => {
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
       ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']]);
   });
+
+  test('Checks that computerHit will attack random spot that has not been selected', () => {
+    expect(playerOne.computerHit()).toBe(true);
+  });
 });
