@@ -85,3 +85,24 @@ I will be writing a test, making the code pass, and then repeat the process
     - passes if computer selects valid space to hit and returnBoard updates correct marker to correct space
 
 16. Write method to allow computer to select random valid spot
+
+
+
+
+Browser setup process
+
+1. create different sections in gameBoardArray
+    - header, content, footer
+    - for desktop presentation, content can show current players board and oppenents board
+    - for mobile presentation, content can either have carousel to view player boards, or 
+        player can view opponents attack and then see opponents board
+
+2. create js code to move game along
+    - after each player makes a move, the board either is remade again, or method finds exact space that
+        was altered and shows change
+    - create js code to populate boards with gameboard arrays
+    - should end game when isLoser is true
+
+3. write js code to allow user to place ships through user interface
+    
+4. player should be able to choose between two player and playing against computer

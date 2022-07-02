@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "watch": "webpack --watch",
     "build": "webpack"
   },
   "repository": {
