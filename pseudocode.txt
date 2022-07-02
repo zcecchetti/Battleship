@@ -106,3 +106,15 @@ Browser setup process
 3. write js code to allow user to place ships through user interface
     
 4. player should be able to choose between two player and playing against computer
+
+const createForm {
+
+    get formContainer
+    create form element
+
+    user select play against computer or other player
+        if player vs player, get player 1 name and player 2 name
+        if player vs computer, get player 1 name, player 2 name = AI Supreme
+
+
+}
