@@ -9,9 +9,9 @@ import { createShip, gameboard } from './components';
 const playerArray = [];
 
 // create player objects
-const player = function () {
+const Player = function () {
   // add player to playerArray
-  playerArray.push(player);
+  playerArray.push(Player);
 
   // create gameboard array for player
   const playerBoard = gameboard();
@@ -76,4 +76,4 @@ const player = function () {
   };
 };
 
-export { player };
+export { Player };
