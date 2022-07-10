@@ -70,6 +70,10 @@
     background-color: aquamarine;
 }
 
+#selected {
+    background-color: gray;
+}
+
 @media screen and (max-width: 600px) {
 
 }

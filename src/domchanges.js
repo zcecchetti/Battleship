@@ -110,6 +110,45 @@ function checkSpace(currentSpace, spaceDiv, whichPlayer) {
   }
 }
 
+// delete player boards
+// function removeBoards() {
+//   try {
+//     const playerBoard = document.getElementById('playerBoard');
+//     const playerBoardContainer = document.getElementById('playerBoardContainer');
+
+//     const opponentBoard = document.getElementById('opponentBoard');
+//     const opponentBoardContainer = document.getElementById('opponentBoardContainer');
+
+//     playerBoard.removeChild(playerBoardContainer);
+//     opponentBoard.removeChild(opponentBoardContainer);
+//   } catch {
+//     return false;
+//   }
+// }
+
+// unselect space
+function unselectSpace() {
+  const space = document.getElementById('selected');
+  space.removeAttribute('id', 'selected');
+}
+
+// allow user to select space
+function selectSpace(element) {
+  try {
+    unselectSpace();
+    element.setAttribute('id', 'selected');
+  } catch {
+    element.setAttribute('id', 'selected');
+  }
+}
+
+// add event listener to select space
+function addSelectorListener(space) {
+  space.addEventListener('click', () => {
+    selectSpace(space);
+  });
+}
+
 // add playerboards to DOM
 function addPlayerBoards(playerArray, whichPlayer) {
   const playerBoardDiv = document.createElement('div');
@@ -125,6 +164,7 @@ function addPlayerBoards(playerArray, whichPlayer) {
       spaceDiv.classList.add('spaceDiv');
       checkSpace(currentSpace, spaceDiv, whichPlayer);
       spaceDiv.classList.add(`${i}`);
+      addSelectorListener(spaceDiv);
       currentRowDiv.appendChild(spaceDiv);
     }
     playerBoardDiv.appendChild(currentRowDiv);
@@ -132,9 +172,11 @@ function addPlayerBoards(playerArray, whichPlayer) {
 
   if (whichPlayer === 'self') {
     const playerBoard = document.getElementById('playerBoard');
+    playerBoardDiv.setAttribute('id', 'playerBoardContainer');
     playerBoard.appendChild(playerBoardDiv);
   } else {
     const playerBoard = document.getElementById('opponentBoard');
+    playerBoardDiv.setAttribute('id', 'opponentBoardContainer');
     playerBoard.appendChild(playerBoardDiv);
   }
 }
