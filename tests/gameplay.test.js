@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 
-import { player } from '../src/gameplay';
+import { Player } from '../src/gameplay';
 
 describe('Tests the player factory function methods and attributes', () => {
-  const playerOne = player();
+  const playerOne = Player();
   const playerBoardOne = playerOne.playerBoard;
   playerOne.createPlayerShips();
   const playerShipsOne = playerOne.shipObjectArray;
 
-  const playerTwo = player();
+  const playerTwo = Player();
   const playerBoardTwo = playerTwo.playerBoard;
   playerTwo.createPlayerShips();
   const playerShipsTwo = playerTwo.shipObjectArray;

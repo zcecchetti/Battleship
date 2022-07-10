@@ -99,28 +99,33 @@ function addGameContainers() {
   boardContainer.appendChild(opponentBoard);
 }
 
-function addPlayerBoards(playerOne) {
-  const playerOneArray = playerOne.playerBoardArray;
+function addPlayerBoards(playerOneArray) {
+  console.log(playerOneArray);
 
   const playerOneBoardDiv = document.createElement('div');
 
   for (const row in playerOneArray) {
     const currentRow = playerOneArray[row];
     const currentRowDiv = document.createElement('div');
+    currentRowDiv.classList.add('boardRow');
     for (let i = 0; i < currentRow.length; i++) {
       const spaceDiv = document.createElement('div');
-      spaceDiv.classList.add(spaceDiv);
+      spaceDiv.classList.add('spaceDiv');
       currentRowDiv.appendChild(spaceDiv);
     }
     playerOneBoardDiv.appendChild(currentRowDiv);
   }
+
+  const playerOneBoard = document.getElementById('playerBoard');
+  playerOneBoard.appendChild(playerOneBoardDiv);
 }
 
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
 //   const opponentType = getOpponentType();
 
-  const playerOne = new Player();
+  const playerOne = Player();
+  //   const playerBoardOne = playerOne.playerBoard;
   //   if (opponentType === true) {
   //     const playerTwo = new Player();
   //   } else {
@@ -128,7 +133,7 @@ window.startGameplay = function () {
   //   }
 
   addGameContainers();
-  addPlayerBoards(playerOne);
+  addPlayerBoards(playerOne.showPlayerBoard());
 };
 
 export { createGameForm };

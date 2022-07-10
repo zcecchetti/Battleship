@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-.body {
+#body {
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -78,6 +78,15 @@
         margin: 2rem calc(50vw - 25rem);
     }
 
+    .spaceDiv {
+        height: 3rem;
+        width: 5rem;
+    }
+
+    .boardRow {
+        display: flex;
+    }
+
     #controls {
         height: 5rem;
         width: 60rem;
@@ -92,4 +101,5 @@
         background-color: rgb(199, 204, 208);
         border-radius: 4px;
     }
+
 }
