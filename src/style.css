@@ -47,9 +47,9 @@
     background-color: aqua;
 } */
 
-#opponentBoard {
+/* #opponentBoard {
     background-color: blue;
-}
+} */
 
 #controls {
     background-color: blueviolet;
@@ -72,6 +72,10 @@
 
 .S {
     background-color: brown;
+}
+
+.B {
+    background-color: aquamarine;
 }
 
 @media screen and (max-width: 600px) {
