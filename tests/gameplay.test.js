@@ -28,7 +28,6 @@ describe('Tests the player factory function methods and attributes', () => {
   });
 
   test('Checks that placing a ship on a players gameboard is valid', () => {
-    playerOne.createPlayerShips();
     const shipOne = playerShipsOne[0];
     expect(playerBoardOne.isValidPlacement(shipOne, 'h', 2, 3)).toBe(true);
   });

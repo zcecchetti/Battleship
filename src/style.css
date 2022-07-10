@@ -43,9 +43,9 @@
     width: max-content;
 }
 
-#playerBoard {
+/* #playerBoard {
     background-color: aqua;
-}
+} */
 
 #opponentBoard {
     background-color: blue;
@@ -60,6 +60,18 @@
  justify-content: center;
  align-items: center;
  height: 5vh;
+}
+
+.M {
+    background-color: rgb(200, 207, 214);
+}
+
+.H {
+    background-color: rgb(218, 110, 110);
+}
+
+.S {
+    background-color: brown;
 }
 
 @media screen and (max-width: 600px) {
@@ -81,11 +93,29 @@
     .spaceDiv {
         height: 3rem;
         width: 5rem;
+        border-right: 1px solid blue;
+    }
+
+    .spaceDiv:last-child {
+        border-right: 0;
+    }
+
+    .spaceDiv:hover {
+        background-color: aliceblue;
     }
 
     .boardRow {
         display: flex;
+        border-bottom: 1.25px solid blue;
+        border-left: 1.25px solid blue;
+        border-right: 1.25px solid blue;
     }
+
+    .boardRow:first-child {
+        border-top: 1.25px solid blue;
+    }
+
+
 
     #controls {
         height: 5rem;

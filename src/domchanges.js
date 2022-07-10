@@ -99,18 +99,32 @@ function addGameContainers() {
   boardContainer.appendChild(opponentBoard);
 }
 
-function addPlayerBoards(playerOneArray) {
-  console.log(playerOneArray);
+// check spaceDiv for value other than empty
+function checkSpace(currentSpace, spaceDiv) {
+  if (currentSpace === 'M') {
+    spaceDiv.classList.add('M');
+  } else if (currentSpace.index === 'H') {
+    spaceDiv.classList.add('H');
+  } else if (currentSpace.index === 'S') {
+    spaceDiv.classList.add('S');
+  }
+}
 
+// add playerboards to DOM
+function addPlayerBoards(playerOneArray) {
   const playerOneBoardDiv = document.createElement('div');
 
   for (const row in playerOneArray) {
     const currentRow = playerOneArray[row];
     const currentRowDiv = document.createElement('div');
     currentRowDiv.classList.add('boardRow');
+    currentRowDiv.classList.add(`${row}`);
     for (let i = 0; i < currentRow.length; i++) {
       const spaceDiv = document.createElement('div');
+      const currentSpace = currentRow[i];
       spaceDiv.classList.add('spaceDiv');
+      checkSpace(currentSpace, spaceDiv);
+      spaceDiv.classList.add(`${i}`);
       currentRowDiv.appendChild(spaceDiv);
     }
     playerOneBoardDiv.appendChild(currentRowDiv);
@@ -125,7 +139,7 @@ window.startGameplay = function () {
 //   const opponentType = getOpponentType();
 
   const playerOne = Player();
-  //   const playerBoardOne = playerOne.playerBoard;
+  const playerBoardOne = playerOne.playerBoard;
   //   if (opponentType === true) {
   //     const playerTwo = new Player();
   //   } else {
@@ -133,6 +147,14 @@ window.startGameplay = function () {
   //   }
 
   addGameContainers();
+  playerOne.createPlayerShips();
+  const playerOneShips = playerOne.shipObjectArray;
+  const smallShip = playerOneShips[0];
+  playerBoardOne.placeShip(smallShip, 'h', 4, 5);
+  playerBoardOne.receiveAttack(1, 5);
+  playerBoardOne.receiveAttack(4, 5);
+  playerBoardOne.receiveAttack(5, 5);
+  playerBoardOne.receiveAttack(6, 5);
   addPlayerBoards(playerOne.showPlayerBoard());
 };
 
