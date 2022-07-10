@@ -74,11 +74,6 @@ function createGameForm() {
   newGameForm.appendChild(startGame);
 }
 
-// function getOpponentType() {
-//   const inputPlayer = document.querySelector("input[name='opponentType']:checked").value;
-//   return inputPlayer;
-// }
-
 function addGameContainers() {
   const greetingContainer = document.getElementById('greetingContainer');
   const contentContainer = document.getElementById('contentContainer');
@@ -157,8 +152,6 @@ function getOpponent() {
 
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
-//   const opponentType = getOpponentType();
-
   const playerOne = Player();
   const playerBoardOne = playerOne.playerBoard;
   const playerTwo = getOpponent();
