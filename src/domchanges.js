@@ -133,19 +133,43 @@ function unselectSpace() {
 }
 
 // allow user to select space
-function selectSpace(element) {
+function selectSpace(space) {
   try {
     unselectSpace();
-    element.setAttribute('id', 'selected');
+    space.setAttribute('id', 'selected');
   } catch {
-    element.setAttribute('id', 'selected');
+    space.setAttribute('id', 'selected');
   }
+}
+
+// check if space is selected
+function checkSelected(space) {
+  const checkElementAgainst = document.getElementById('selected');
+  if (space === checkElementAgainst) {
+    return true;
+  }
+  return false;
+}
+
+// check column and row of space in array
+// function checkSpaceLocation(space) {
+
+// }
+
+// attack space if selected
+function attackSpace(playerBoard, space) {
+  const isSelected = checkSelected(space);
+  if (isSelected) {
+    return true;
+  }
+  return false;
 }
 
 // add event listener to select space
 function addSelectorListener(space) {
   space.addEventListener('click', () => {
     selectSpace(space);
+    attackSpace(space);
   });
 }
 
@@ -157,13 +181,12 @@ function addPlayerBoards(playerArray, whichPlayer) {
     const currentRow = playerArray[row];
     const currentRowDiv = document.createElement('div');
     currentRowDiv.classList.add('boardRow');
-    currentRowDiv.classList.add(`${row}`);
     for (let i = 0; i < currentRow.length; i++) {
       const spaceDiv = document.createElement('div');
       const currentSpace = currentRow[i];
       spaceDiv.classList.add('spaceDiv');
       checkSpace(currentSpace, spaceDiv, whichPlayer);
-      spaceDiv.classList.add(`${i}`);
+      spaceDiv.setAttribute('id', `${i}+${row}`);
       addSelectorListener(spaceDiv);
       currentRowDiv.appendChild(spaceDiv);
     }
