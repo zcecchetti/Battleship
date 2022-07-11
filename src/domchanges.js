@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-empty */
 /* eslint-disable func-names */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
@@ -128,23 +130,24 @@ function checkSpace(currentSpace, spaceDiv, whichPlayer) {
 
 // unselect space
 function unselectSpace() {
-  const space = document.getElementById('selected');
-  space.removeAttribute('id', 'selected');
+  try {
+    const spacesSelected = document.getElementsByClassName('selected');
+    const space = spacesSelected[0];
+    space.classList.remove('selected');
+  } catch {
+  }
 }
 
 // allow user to select space
 function selectSpace(space) {
-  try {
-    unselectSpace();
-    space.setAttribute('id', 'selected');
-  } catch {
-    space.setAttribute('id', 'selected');
-  }
+  unselectSpace();
+  space.classList.add('selected');
 }
 
 // check if space is selected
 function checkSelected(space) {
-  const checkElementAgainst = document.getElementById('selected');
+  const spacesSelected = document.getElementsByClassName('selected');
+  const checkElementAgainst = spacesSelected[0];
   if (space === checkElementAgainst) {
     return true;
   }
@@ -152,7 +155,14 @@ function checkSelected(space) {
 }
 
 // check column and row of space in array
-// function checkSpaceLocation(space) {
+function checkSpaceLocation(space) {
+  const spaceID = space.id;
+  const spaceLocation = spaceID.split('+');
+  return spaceLocation;
+}
+
+// check ehich playerboard is selected
+// function checkPlayerBoard(space) {
 
 // }
 
@@ -160,6 +170,7 @@ function checkSelected(space) {
 function attackSpace(playerBoard, space) {
   const isSelected = checkSelected(space);
   if (isSelected) {
+    checkSpaceLocation(space);
     return true;
   }
   return false;

@@ -70,7 +70,7 @@
     background-color: aquamarine;
 }
 
-#selected {
+.selected {
     background-color: gray;
 }
 
@@ -132,4 +132,7 @@
         border-radius: 4px;
     }
 
+    .selected:hover {
+        background-color: gray;
+    }
 }
