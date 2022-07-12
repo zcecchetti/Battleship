@@ -164,32 +164,29 @@ function checkSpaceLocation(space) {
 }
 
 // attack space if selected
-function attackSpace(player, space) {
-  const isSelected = checkSelected(space);
+function attackSpace(player, space, whichPlayer) {
   const { playerBoard } = player;
-  if (isSelected) {
-    const attackLocation = checkSpaceLocation(space);
-    const attackI = attackLocation[0];
-    const attackJ = attackLocation[1];
-    try {
-      playerBoard.receiveAttack(attackI, attackJ);
-      removeBoard('opponent');
-      addPlayerBoards(player, 'opponent');
-    } catch {
-      console.log('attack did not work');
-    }
-    return true;
+  const attackLocation = checkSpaceLocation(space);
+  const attackI = attackLocation[0];
+  const attackJ = attackLocation[1];
+  if (whichPlayer === 'self') {
+    return;
   }
-  console.log('wasnt selected');
-  return false;
+  try {
+    playerBoard.receiveAttack(attackI, attackJ);
+    removeBoard(whichPlayer);
+    addPlayerBoards(player, whichPlayer);
+  } catch {
+    console.log('attack did not work');
+  }
 }
 
 // add event listener to select space
-function addSelectorListener(player, space) {
+function addSelectorListener(player, space, whichPlayer) {
   space.addEventListener('click', () => {
     const selected = checkSelected(space);
     if (selected) {
-      attackSpace(player, space);
+      attackSpace(player, space, whichPlayer);
     } else {
       selectSpace(space);
     }
@@ -211,7 +208,7 @@ function addPlayerBoards(player, whichPlayer) {
       spaceDiv.classList.add('spaceDiv');
       checkSpaceInfo(currentSpace, spaceDiv, whichPlayer);
       spaceDiv.setAttribute('id', `${i}+${row}`);
-      addSelectorListener(player, spaceDiv);
+      addSelectorListener(player, spaceDiv, whichPlayer);
       currentRowDiv.appendChild(spaceDiv);
     }
     playerBoardDiv.appendChild(currentRowDiv);
@@ -259,7 +256,7 @@ window.startGameplay = function () {
   playerBoardOne.placeShip(smallShip, 'h', 4, 5);
   playerBoardOne.placeShip(longShip, 'v', 7, 3);
   playerBoardTwo.placeShip(shortShip, 'h', 4, 5);
-  playerBoardTwo.placeShip(bigShip, 'h', 7, 3);
+  playerBoardTwo.placeShip(bigShip, 'h', 3, 3);
   playerBoardOne.receiveAttack(1, 5);
   playerBoardOne.receiveAttack(4, 5);
   playerBoardOne.receiveAttack(5, 5);
