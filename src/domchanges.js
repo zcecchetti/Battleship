@@ -180,14 +180,19 @@ function attackSpace(player, space) {
     }
     return true;
   }
+  console.log('wasnt selected');
   return false;
 }
 
 // add event listener to select space
 function addSelectorListener(player, space) {
   space.addEventListener('click', () => {
-    selectSpace(space);
-    attackSpace(player, space);
+    const selected = checkSelected(space);
+    if (selected) {
+      attackSpace(player, space);
+    } else {
+      selectSpace(space);
+    }
   });
 }
 
