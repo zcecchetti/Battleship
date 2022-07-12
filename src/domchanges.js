@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-empty */
 /* eslint-disable func-names */
@@ -97,7 +98,7 @@ function addGameContainers() {
 }
 
 // check spaceDiv for value other than empty
-function checkSpace(currentSpace, spaceDiv, whichPlayer) {
+function checkSpaceInfo(currentSpace, spaceDiv, whichPlayer) {
   if (whichPlayer === 'self') {
     if ((typeof (currentSpace) === 'object') && (typeof (currentSpace.index) !== 'string')) {
       spaceDiv.classList.add('B');
@@ -113,20 +114,21 @@ function checkSpace(currentSpace, spaceDiv, whichPlayer) {
 }
 
 // delete player boards
-// function removeBoards() {
-//   try {
-//     const playerBoard = document.getElementById('playerBoard');
-//     const playerBoardContainer = document.getElementById('playerBoardContainer');
-
-//     const opponentBoard = document.getElementById('opponentBoard');
-//     const opponentBoardContainer = document.getElementById('opponentBoardContainer');
-
-//     playerBoard.removeChild(playerBoardContainer);
-//     opponentBoard.removeChild(opponentBoardContainer);
-//   } catch {
-//     return false;
-//   }
-// }
+function removeBoard(whichPlayer) {
+  try {
+    if (whichPlayer === 'self') {
+      const playerBoard = document.getElementById('playerBoard');
+      const playerBoardContainer = document.getElementById('playerBoardContainer');
+      playerBoard.removeChild(playerBoardContainer);
+    } else {
+      const opponentBoard = document.getElementById('opponentBoard');
+      const opponentBoardContainer = document.getElementById('opponentBoardContainer');
+      opponentBoard.removeChild(opponentBoardContainer);
+    }
+  } catch {
+    console.log('did not remove boards');
+  }
+}
 
 // unselect space
 function unselectSpace() {
@@ -161,31 +163,37 @@ function checkSpaceLocation(space) {
   return spaceLocation;
 }
 
-// check ehich playerboard is selected
-// function checkPlayerBoard(space) {
-
-// }
-
 // attack space if selected
-function attackSpace(playerBoard, space) {
+function attackSpace(player, space) {
   const isSelected = checkSelected(space);
+  const { playerBoard } = player;
   if (isSelected) {
-    checkSpaceLocation(space);
+    const attackLocation = checkSpaceLocation(space);
+    const attackI = attackLocation[0];
+    const attackJ = attackLocation[1];
+    try {
+      playerBoard.receiveAttack(attackI, attackJ);
+      removeBoard('opponent');
+      addPlayerBoards(player, 'opponent');
+    } catch {
+      console.log('attack did not work');
+    }
     return true;
   }
   return false;
 }
 
 // add event listener to select space
-function addSelectorListener(space) {
+function addSelectorListener(player, space) {
   space.addEventListener('click', () => {
     selectSpace(space);
-    attackSpace(space);
+    attackSpace(player, space);
   });
 }
 
 // add playerboards to DOM
-function addPlayerBoards(playerArray, whichPlayer) {
+function addPlayerBoards(player, whichPlayer) {
+  const playerArray = player.showPlayerBoard();
   const playerBoardDiv = document.createElement('div');
 
   for (const row in playerArray) {
@@ -196,9 +204,9 @@ function addPlayerBoards(playerArray, whichPlayer) {
       const spaceDiv = document.createElement('div');
       const currentSpace = currentRow[i];
       spaceDiv.classList.add('spaceDiv');
-      checkSpace(currentSpace, spaceDiv, whichPlayer);
+      checkSpaceInfo(currentSpace, spaceDiv, whichPlayer);
       spaceDiv.setAttribute('id', `${i}+${row}`);
-      addSelectorListener(spaceDiv);
+      addSelectorListener(player, spaceDiv);
       currentRowDiv.appendChild(spaceDiv);
     }
     playerBoardDiv.appendChild(currentRowDiv);
@@ -207,6 +215,7 @@ function addPlayerBoards(playerArray, whichPlayer) {
   if (whichPlayer === 'self') {
     const playerBoard = document.getElementById('playerBoard');
     playerBoardDiv.setAttribute('id', 'playerBoardContainer');
+    playerBoardDiv.classList.add();
     playerBoard.appendChild(playerBoardDiv);
   } else {
     const playerBoard = document.getElementById('opponentBoard');
@@ -254,8 +263,8 @@ window.startGameplay = function () {
   playerBoardTwo.receiveAttack(4, 5);
   playerBoardTwo.receiveAttack(5, 5);
   playerBoardTwo.receiveAttack(3, 4);
-  addPlayerBoards(playerOne.showPlayerBoard(), 'self');
-  addPlayerBoards(playerTwo.showPlayerBoard(), 'opponent');
+  addPlayerBoards(playerOne, 'self');
+  addPlayerBoards(playerTwo, 'opponent');
 };
 
 export { createGameForm };
