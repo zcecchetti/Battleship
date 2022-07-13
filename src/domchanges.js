@@ -143,6 +143,11 @@ function unselectSpace() {
 // allow user to select space
 function selectSpace(space) {
   unselectSpace();
+
+  // prevent already attacked spaces from being selected
+  if ((space.classList.contains('M')) || (space.classList.contains('H')) || (space.classList.contains('S'))) {
+    return;
+  }
   space.classList.add('selected');
 }
 
