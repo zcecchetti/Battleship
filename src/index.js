@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import { createGameForm } from './domchanges';
+import { createGameForm, typeText } from './domchanges';
 import './style.css';
 
-createGameForm();
+const message = 'Welcome to the battle station, Captain! Please select your opponent and prepare for battle!';
+typeText(0, message, createGameForm);

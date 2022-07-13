@@ -74,6 +74,13 @@
     background-color: gray;
 }
 
+.boards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 @media screen and (max-width: 600px) {
 
 }
@@ -88,6 +95,11 @@
         height: 30rem;
         width: 50rem;
         margin: 2rem calc(50vw - 25rem);
+        gap: 1rem;
+    }
+
+    .playerNames {
+        font-size: 2rem;
     }
 
     .spaceDiv {
@@ -115,8 +127,6 @@
         border-top: 1.25px solid blue;
     }
 
-
-
     #controls {
         height: 5rem;
         width: 60rem;
@@ -135,4 +145,5 @@
     .selected:hover {
         background-color: gray;
     }
+
 }

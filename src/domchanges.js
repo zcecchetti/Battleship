@@ -9,6 +9,24 @@
 
 import { Player } from './gameplay';
 
+// type text on screen to introduce game to user
+function typeText(i, message, nextFunction) {
+  const greeting = document.getElementById('greeting');
+  if (i < message.length) {
+    greeting.textContent += message.charAt(i);
+    i++;
+    if ((message.charAt(i) === '.') || (message.charAt(i) === '!')) {
+      setTimeout(() => { typeText(i, message, nextFunction); }, 150);
+    } else {
+      setTimeout(() => { typeText(i, message, nextFunction); }, 50);
+    }
+  }
+  if (i === message.length) {
+    setTimeout(nextFunction, 250);
+    i++;
+  }
+}
+
 // create game form
 function createGameForm() {
   const formContainer = document.getElementById('greetingContainer');
@@ -16,15 +34,15 @@ function createGameForm() {
   newGameForm.setAttribute('id', 'gameForm');
   newGameForm.setAttribute('onsubmit', 'startGameplay(); return false');
 
+  // create choice between player vs player and player vs computer
   const opponentSelectDiv = document.createElement('div');
   const opponentFieldset = document.createElement('fieldset');
   opponentSelectDiv.appendChild(opponentFieldset);
 
   const opponentLegend = document.createElement('legend');
-  opponentLegend.textContent = 'Play versus...';
+  opponentLegend.textContent = 'Choose your opponent';
   opponentFieldset.appendChild(opponentLegend);
 
-  // create choice between player vs player and player vs computer
   const playerVsPlayer = document.createElement('input');
   const labelpvp = document.createElement('label');
   playerVsPlayer.setAttribute('type', 'radio');
@@ -33,7 +51,7 @@ function createGameForm() {
   playerVsPlayer.setAttribute('name', 'opponentType');
   playerVsPlayer.setAttribute('value', true);
   playerVsPlayer.setAttribute('required', '');
-  labelpvp.textContent = 'Player';
+  labelpvp.textContent = 'Player 2';
   const pvpDiv = document.createElement('div');
   pvpDiv.classList.add('opponentOption');
   pvpDiv.appendChild(labelpvp);
@@ -54,8 +72,6 @@ function createGameForm() {
   pvcDiv.appendChild(playerVsComp);
   opponentFieldset.appendChild(pvcDiv);
 
-  // show which option is selected
-
   // check if user selected an opponent type
   playerVsPlayer.addEventListener('input', () => {
     playerVsPlayer.setCustomValidity('');
@@ -64,7 +80,7 @@ function createGameForm() {
 
   playerVsPlayer.addEventListener('invalid', () => {
     if (!playerVsPlayer.checkValidity()) {
-      playerVsPlayer.setCustomValidity('Please select an opponent type...');
+      playerVsPlayer.setCustomValidity('Please select an opponent type');
     }
   });
 
@@ -126,7 +142,6 @@ function removeBoard(whichPlayer) {
       opponentBoard.removeChild(opponentBoardContainer);
     }
   } catch {
-    console.log('did not remove boards');
   }
 }
 
@@ -182,12 +197,10 @@ function attackSpace(player, space, whichPlayer) {
     removeBoard(whichPlayer);
     addPlayerBoards(player, whichPlayer);
     const hasLost = player.isLoser();
-    console.log(hasLost);
     if (hasLost) {
       alert('player Lost!!');
     }
   } catch {
-    console.log('attack did not work');
   }
 }
 
@@ -227,11 +240,22 @@ function addPlayerBoards(player, whichPlayer) {
   if (whichPlayer === 'self') {
     const playerBoard = document.getElementById('playerBoard');
     playerBoardDiv.setAttribute('id', 'playerBoardContainer');
-    playerBoardDiv.classList.add();
+
+    const playerName = document.createElement('div');
+    playerName.textContent = 'Your Board';
+    playerName.classList.add('playerNames');
+
+    playerBoard.appendChild(playerName);
     playerBoard.appendChild(playerBoardDiv);
   } else {
     const playerBoard = document.getElementById('opponentBoard');
     playerBoardDiv.setAttribute('id', 'opponentBoardContainer');
+    const playerName = document.createElement('div');
+    const boardTitle = player.userName;
+    playerName.textContent = boardTitle;
+    playerName.classList.add('playerNames');
+
+    playerBoard.appendChild(playerName);
     playerBoard.appendChild(playerBoardDiv);
   }
 }
@@ -239,17 +263,17 @@ function addPlayerBoards(player, whichPlayer) {
 // get opponent type from form
 function getOpponent() {
   const opponentType = document.querySelector("input[name='opponentType']:checked").value;
-  if (opponentType === true) {
-    const humanPlayer = new Player();
+  if (opponentType === 'true') {
+    const humanPlayer = new Player("Player 2's Board");
     return humanPlayer;
   }
-  const computerPlayer = new Player();
+  const computerPlayer = new Player("Computer's Board");
   return computerPlayer;
 }
 
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
-  const playerOne = Player();
+  const playerOne = Player("Player 1's Board");
   const playerBoardOne = playerOne.playerBoard;
   const playerTwo = getOpponent();
   const playerBoardTwo = playerTwo.playerBoard;
@@ -281,4 +305,4 @@ window.startGameplay = function () {
   addPlayerBoards(playerTwo, 'opponent');
 };
 
-export { createGameForm };
+export { createGameForm, typeText };

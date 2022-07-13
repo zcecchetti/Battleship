@@ -9,7 +9,10 @@ import { createShip, gameboard } from './components';
 const playerArray = [];
 
 // create player objects
-const Player = function () {
+const Player = function (playerName) {
+  // store a player's name
+  const userName = playerName;
+
   // add player to playerArray
   playerArray.push(Player);
 
@@ -66,6 +69,7 @@ const Player = function () {
     return true;
   };
   return {
+    userName,
     playerBoard,
     shipObjectArray,
     isLoser,
