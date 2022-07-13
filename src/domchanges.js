@@ -176,6 +176,11 @@ function attackSpace(player, space, whichPlayer) {
     playerBoard.receiveAttack(attackI, attackJ);
     removeBoard(whichPlayer);
     addPlayerBoards(player, whichPlayer);
+    const hasLost = player.isLoser();
+    console.log(hasLost);
+    if (hasLost) {
+      alert('player Lost!!');
+    }
   } catch {
     console.log('attack did not work');
   }
@@ -253,10 +258,12 @@ window.startGameplay = function () {
   const shortShip = playerTwoShips[0];
   const longShip = playerOneShips[2];
   const bigShip = playerTwoShips[2];
+  const medShip = playerTwoShips[1];
   playerBoardOne.placeShip(smallShip, 'h', 4, 5);
   playerBoardOne.placeShip(longShip, 'v', 7, 3);
   playerBoardTwo.placeShip(shortShip, 'h', 4, 5);
   playerBoardTwo.placeShip(bigShip, 'h', 3, 3);
+  playerBoardTwo.placeShip(medShip, 'v', 0, 0);
   playerBoardOne.receiveAttack(1, 5);
   playerBoardOne.receiveAttack(4, 5);
   playerBoardOne.receiveAttack(5, 5);
