@@ -9,7 +9,7 @@
 /* eslint-disable import/prefer-default-export */
 
 // factory function to create new ship objects
-function createShip(length) {
+function createShip(length, shipName) {
   const shipArray = [];
   for (let i = 0; i < length; i++) {
     shipArray.push('0');
@@ -33,7 +33,9 @@ function createShip(length) {
     return true;
   };
 
-  return { returnArray, hit, isSunk };
+  return {
+    returnArray, hit, isSunk, shipName,
+  };
 }
 
 // factory function for gameboard object

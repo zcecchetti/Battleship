@@ -136,10 +136,18 @@ function removeBoard(whichPlayer) {
       const playerBoard = document.getElementById('playerBoard');
       const playerBoardContainer = document.getElementById('playerBoardContainer');
       playerBoard.removeChild(playerBoardContainer);
+
+      const playerNames = document.getElementsByClassName('playerNames');
+      const playerName = playerNames[0];
+      playerBoard.removeChild(playerName);
     } else {
       const opponentBoard = document.getElementById('opponentBoard');
       const opponentBoardContainer = document.getElementById('opponentBoardContainer');
       opponentBoard.removeChild(opponentBoardContainer);
+
+      const playerNames = document.getElementsByClassName('playerNames');
+      const playerName = playerNames[1];
+      opponentBoard.removeChild(playerName);
     }
   } catch {
   }
@@ -198,7 +206,7 @@ function attackSpace(player, space, whichPlayer) {
     addPlayerBoards(player, whichPlayer);
     const hasLost = player.isLoser();
     if (hasLost) {
-      alert('player Lost!!');
+      alert(`${player.userName} Loses!`);
     }
   } catch {
   }
@@ -252,7 +260,7 @@ function addPlayerBoards(player, whichPlayer) {
     playerBoardDiv.setAttribute('id', 'opponentBoardContainer');
     const playerName = document.createElement('div');
     const boardTitle = player.userName;
-    playerName.textContent = boardTitle;
+    playerName.textContent = `${boardTitle}'s Board`;
     playerName.classList.add('playerNames');
 
     playerBoard.appendChild(playerName);
@@ -261,48 +269,88 @@ function addPlayerBoards(player, whichPlayer) {
 }
 
 // get opponent type from form
-function getOpponent() {
-  const opponentType = document.querySelector("input[name='opponentType']:checked").value;
-  if (opponentType === 'true') {
-    const humanPlayer = new Player("Player 2's Board");
-    return humanPlayer;
+// function getOpponent() {
+//   const opponentType = document.querySelector("input[name='opponentType']:checked").value;
+//   if (opponentType === 'true') {
+//     const humanPlayer = new Player('Player 2');
+//     return humanPlayer;
+//   }
+//   const computerPlayer = new Player('Computer');
+//   return computerPlayer;
+// }
+
+// add boat selection for player
+function addBoatSelection(player) {
+  // create ships for player
+  player.createPlayerShips();
+  const playerShips = player.shipObjectArray;
+  //   const destoyer = playerShips[0];
+  //   const submarine = playerShips[1];
+  //   const cruiser = playerShips[2];
+  //   const battleship = playerShips[3];
+  //   const carrier = playerShips[4];
+
+  // add ships to DOM
+  const contentContainer = document.getElementById('contentContainer');
+  const boatSelection = document.createElement('div');
+  boatSelection.setAttribute('id', 'boatSelection');
+  contentContainer.appendChild(boatSelection);
+  for (const boat in playerShips) {
+    const currentBoat = playerShips[boat];
+    const boatArray = currentBoat.returnArray();
+    const { shipName } = currentBoat;
+
+    const boatDiv = document.createElement('div');
+    boatDiv.classList.add('boatSelectionContainer');
+    const boatArrayContainer = document.createElement('div');
+    boatArrayContainer.classList.add('boatContainerArray');
+    for (let i = 0; i < boatArray.length; i++) {
+      const spaceDiv = document.createElement('div');
+      spaceDiv.classList.add('boatSelectionSpace');
+      boatArrayContainer.appendChild(spaceDiv);
+    }
+    const boatName = document.createElement('div');
+    boatName.textContent = shipName;
+    boatDiv.appendChild(boatArrayContainer);
+    boatDiv.appendChild(boatName);
+    boatSelection.appendChild(boatDiv);
   }
-  const computerPlayer = new Player("Computer's Board");
-  return computerPlayer;
 }
 
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
-  const playerOne = Player("Player 1's Board");
-  const playerBoardOne = playerOne.playerBoard;
-  const playerTwo = getOpponent();
-  const playerBoardTwo = playerTwo.playerBoard;
+  const playerOne = Player('Player 1');
+  //   const playerBoardOne = playerOne.playerBoard;
+  //   const playerTwo = getOpponent();
+  //   const playerBoardTwo = playerTwo.playerBoard;
 
   addGameContainers();
-  playerOne.createPlayerShips();
-  playerTwo.createPlayerShips();
-  const playerOneShips = playerOne.shipObjectArray;
-  const playerTwoShips = playerTwo.shipObjectArray;
-  const smallShip = playerOneShips[0];
-  const shortShip = playerTwoShips[0];
-  const longShip = playerOneShips[2];
-  const bigShip = playerTwoShips[2];
-  const medShip = playerTwoShips[1];
-  playerBoardOne.placeShip(smallShip, 'h', 4, 5);
-  playerBoardOne.placeShip(longShip, 'v', 7, 3);
-  playerBoardTwo.placeShip(shortShip, 'h', 4, 5);
-  playerBoardTwo.placeShip(bigShip, 'h', 3, 3);
-  playerBoardTwo.placeShip(medShip, 'v', 0, 0);
-  playerBoardOne.receiveAttack(1, 5);
-  playerBoardOne.receiveAttack(4, 5);
-  playerBoardOne.receiveAttack(5, 5);
-  playerBoardOne.receiveAttack(3, 4);
-  playerBoardTwo.receiveAttack(1, 5);
-  playerBoardTwo.receiveAttack(4, 5);
-  playerBoardTwo.receiveAttack(5, 5);
-  playerBoardTwo.receiveAttack(3, 4);
   addPlayerBoards(playerOne, 'self');
-  addPlayerBoards(playerTwo, 'opponent');
+  addBoatSelection(playerOne);
+
+  //   playerOne.createPlayerShips();
+  //   playerTwo.createPlayerShips();
+  //   const playerOneShips = playerOne.shipObjectArray;
+  //   const playerTwoShips = playerTwo.shipObjectArray;
+  //   const smallShip = playerOneShips[0];
+  //   const shortShip = playerTwoShips[0];
+  //   const longShip = playerOneShips[2];
+  //   const bigShip = playerTwoShips[2];
+  //   const medShip = playerTwoShips[1];
+  //   playerBoardOne.placeShip(smallShip, 'h', 4, 5);
+  //   playerBoardOne.placeShip(longShip, 'v', 7, 3);
+  //   playerBoardTwo.placeShip(shortShip, 'h', 4, 5);
+  //   playerBoardTwo.placeShip(bigShip, 'h', 3, 3);
+  //   playerBoardTwo.placeShip(medShip, 'v', 0, 0);
+  //   playerBoardOne.receiveAttack(1, 5);
+  //   playerBoardOne.receiveAttack(4, 5);
+  //   playerBoardOne.receiveAttack(5, 5);
+  //   playerBoardOne.receiveAttack(3, 4);
+  //   playerBoardTwo.receiveAttack(1, 5);
+  //   playerBoardTwo.receiveAttack(4, 5);
+  //   playerBoardTwo.receiveAttack(5, 5);
+  //   playerBoardTwo.receiveAttack(3, 4);
+//   addPlayerBoards(playerTwo, 'opponent');
 };
 
 export { createGameForm, typeText };

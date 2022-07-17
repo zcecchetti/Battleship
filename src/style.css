@@ -26,6 +26,7 @@
     flex-direction: column;
     justify-content: center;
     overflow: scroll;
+    gap: 5vh;
 }
 
 #greetingContainer {
@@ -81,6 +82,18 @@
     flex-direction: column;
 }
 
+.boatContainerArray {
+    display: flex;
+}
+
+.boatSelectionContainer {
+    display: flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 @media screen and (max-width: 600px) {
 
 }
@@ -102,7 +115,7 @@
         font-size: 2rem;
     }
 
-    .spaceDiv {
+    .spaceDiv, .boatSelectionSpace {
         height: 3rem;
         width: 5rem;
         border-right: 1px solid blue;
@@ -123,8 +136,16 @@
         border-right: 1.25px solid blue;
     }
 
-    .boardRow:first-child {
+    .boatSelectionSpace {
+        border-bottom: 1.25px solid blue;
+    }
+
+    .boardRow:first-child, .boatContainerArray:first-child {
         border-top: 1.25px solid blue;
+    }
+
+    .boatContainerArray:first-child {
+        border-left: 1.25px solid blue;
     }
 
     #controls {
@@ -144,6 +165,13 @@
 
     .selected:hover {
         background-color: gray;
+    }
+
+    #boatSelection {
+        display: flex;;
+        justify-content: space-evenly;
+        align-items: center;
+        font-size: 1.25rem;
     }
 
 }

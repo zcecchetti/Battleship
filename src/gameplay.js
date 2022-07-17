@@ -23,12 +23,16 @@ const Player = function (playerName) {
 
   // create 3 ships for player
   function createPlayerShips() {
-    const smallShip = createShip(3);
-    const mediumShip = createShip(4);
-    const largeShip = createShip(6);
-    shipObjectArray.push(smallShip);
-    shipObjectArray.push(mediumShip);
-    shipObjectArray.push(largeShip);
+    const destroyer = createShip(2, 'Destroyer');
+    const submarine = createShip(3, 'Submarine');
+    const cruiser = createShip(3, 'Cruiser');
+    const battleship = createShip(4, 'Battleship');
+    const carrier = createShip(5, 'Carrier');
+    shipObjectArray.push(destroyer);
+    shipObjectArray.push(submarine);
+    shipObjectArray.push(cruiser);
+    shipObjectArray.push(battleship);
+    shipObjectArray.push(carrier);
     return shipObjectArray;
   }
 
