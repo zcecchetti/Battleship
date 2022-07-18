@@ -224,6 +224,36 @@ function addSelectorListener(player, space, whichPlayer) {
   });
 }
 
+// get ship array details from dragged item
+function getShipParams(shipElement) {
+  console.log(shipElement.children.length);
+  if (shipElement.classList.contains('horizontal')) {
+    console.log('yes');
+  } else {
+    console.log('nope');
+  }
+}
+
+// allow drop onto playerBoardArray
+window.allowDrop = function (ev) {
+  ev.preventDefault();
+};
+
+// create drag protocol
+window.drag = function (ev) {
+  ev.dataTransfer.setData('text/plain', ev.target.id);
+};
+
+// create drop protocol
+window.drop = function (ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData('text/plain');
+  console.log(data);
+  const shipElement = document.getElementById(`${data}`);
+  getShipParams(shipElement);
+  ev.target.appendChild(document.getElementById(data));
+};
+
 // add playerboards to DOM
 function addPlayerBoards(player, whichPlayer) {
   const playerArray = player.showPlayerBoard();
@@ -237,6 +267,8 @@ function addPlayerBoards(player, whichPlayer) {
       const spaceDiv = document.createElement('div');
       const currentSpace = currentRow[i];
       spaceDiv.classList.add('spaceDiv');
+      spaceDiv.setAttribute('ondrop', 'drop(event)');
+      spaceDiv.setAttribute('ondragover', 'allowDrop(event)');
       checkSpaceInfo(currentSpace, spaceDiv, whichPlayer);
       spaceDiv.setAttribute('id', `${i}+${row}`);
       addSelectorListener(player, spaceDiv, whichPlayer);
@@ -279,16 +311,22 @@ function addPlayerBoards(player, whichPlayer) {
 //   return computerPlayer;
 // }
 
+// change direction of boat selection on click
+function changeDirection(boatContainerArray) {
+  if (boatContainerArray.classList.contains('horizontal')) {
+    boatContainerArray.classList.remove('horizontal');
+    boatContainerArray.classList.add('vertical');
+  } else {
+    boatContainerArray.classList.remove('vertical');
+    boatContainerArray.classList.add('horizontal');
+  }
+}
+
 // add boat selection for player
 function addBoatSelection(player) {
   // create ships for player
   player.createPlayerShips();
   const playerShips = player.shipObjectArray;
-  //   const destoyer = playerShips[0];
-  //   const submarine = playerShips[1];
-  //   const cruiser = playerShips[2];
-  //   const battleship = playerShips[3];
-  //   const carrier = playerShips[4];
 
   // add ships to DOM
   const contentContainer = document.getElementById('contentContainer');
@@ -304,6 +342,15 @@ function addBoatSelection(player) {
     boatDiv.classList.add('boatSelectionContainer');
     const boatArrayContainer = document.createElement('div');
     boatArrayContainer.classList.add('boatContainerArray');
+    boatArrayContainer.classList.add('horizontal');
+    boatArrayContainer.setAttribute('draggable', 'true');
+    boatArrayContainer.setAttribute('ondragstart', 'drag(event)');
+    boatArrayContainer.setAttribute('id', `${shipName}`);
+
+    boatArrayContainer.addEventListener('click', () => {
+      changeDirection(boatArrayContainer);
+    });
+
     for (let i = 0; i < boatArray.length; i++) {
       const spaceDiv = document.createElement('div');
       spaceDiv.classList.add('boatSelectionSpace');

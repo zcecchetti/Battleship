@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow: scroll;
+    overflow: auto;
     gap: 5vh;
 }
 
@@ -84,6 +84,15 @@
 
 .boatContainerArray {
     display: flex;
+    box-sizing: border-box;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.vertical {
+    flex-direction: column;
 }
 
 .boatSelectionContainer {
@@ -91,8 +100,21 @@
     flex-direction:  column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
+.spaceDiv {
+    box-sizing: border-box;
+}
+
+.boatSelectionSpace {
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.boardRow {
+    box-sizing: border-box;
+}
 
 @media screen and (max-width: 600px) {
 
@@ -138,9 +160,10 @@
 
     .boatSelectionSpace {
         border-bottom: 1.25px solid blue;
+        border-top: 1.25px solid blue;
     }
 
-    .boardRow:first-child, .boatContainerArray:first-child {
+    .boardRow:first-child {
         border-top: 1.25px solid blue;
     }
 
