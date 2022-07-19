@@ -57,11 +57,11 @@ function gameboard() {
     const { length } = shipObject.returnArray();
     // ship does not fit within gameboardArray
     if (direction === 'h') {
-      if (length + i > 9) {
+      if (length + i > 10) {
         throw 'Not enough spaces';
       }
     } else if (direction === 'v') {
-      if (length + j > 9) {
+      if (length + j > 10) {
         throw 'Not enough spaces';
       }
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-empty */
@@ -225,13 +226,13 @@ function addSelectorListener(player, space, whichPlayer) {
 }
 
 // get ship array details from dragged item
-function getShipParams(shipElement) {
-  console.log(shipElement.children.length);
+function getShipDirection(shipElement) {
   if (shipElement.classList.contains('horizontal')) {
-    console.log('yes');
-  } else {
-    console.log('nope');
+    const direction = 'h';
+    return direction;
   }
+  const direction = 'v';
+  return direction;
 }
 
 // allow drop onto playerBoardArray
@@ -248,11 +249,47 @@ window.drag = function (ev) {
 window.drop = function (ev) {
   ev.preventDefault();
   const data = ev.dataTransfer.getData('text/plain');
-  console.log(data);
-  const shipElement = document.getElementById(`${data}`);
-  getShipParams(shipElement);
   ev.target.appendChild(document.getElementById(data));
 };
+
+// get locations and data on all ships placed by user
+function placeShips(player) {
+  const boatContainers = document.getElementsByClassName('boatContainerArray');
+  const { shipObjectArray } = player;
+
+  // iterate over boatContainers
+  for (let i = 0; i < 5; i++) {
+    const currentContainer = boatContainers[0];
+    const containerParent = currentContainer.parentElement;
+    const spaceLocation = checkSpaceLocation(containerParent);
+    const placeI = parseInt(spaceLocation[0], 10);
+    const placeJ = parseInt(spaceLocation[1], 10);
+    const direction = getShipDirection(currentContainer);
+
+    const shipName = currentContainer.id;
+    for (const ship in shipObjectArray) {
+      const currentShip = shipObjectArray[ship];
+      if (shipName === currentShip.shipName) {
+        try {
+          player.playerBoard.isValidPlacement(currentShip, direction, placeI, placeJ);
+        //   console.log(currentShip);
+        } catch (err) {
+          console.log(err);
+          return;
+        }
+      }
+    }
+    for (const ship in shipObjectArray) {
+      const currentShip = shipObjectArray[ship];
+      if (shipName === currentShip.shipName) {
+        player.playerBoard.placeShip(currentShip, direction, placeI, placeJ);
+        containerParent.removeChild(currentContainer);
+      }
+    }
+  }
+  removeBoard('self');
+  addPlayerBoards(player, 'self');
+}
 
 // add playerboards to DOM
 function addPlayerBoards(player, whichPlayer) {
@@ -362,6 +399,14 @@ function addBoatSelection(player) {
     boatDiv.appendChild(boatName);
     boatSelection.appendChild(boatDiv);
   }
+
+  // add button to set ships
+  const placeShipsButton = document.createElement('button');
+  placeShipsButton.addEventListener('click', () => {
+    placeShips(player);
+  });
+  placeShipsButton.textContent = 'Set Ships';
+  contentContainer.appendChild(placeShipsButton);
 }
 
 // eslint-disable-next-line no-unused-vars
