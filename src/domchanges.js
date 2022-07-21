@@ -250,41 +250,35 @@ window.drop = function (ev) {
   ev.preventDefault();
   const data = ev.dataTransfer.getData('text/plain');
   ev.target.appendChild(document.getElementById(data));
+  const shipElement = document.getElementById(data);
+  shipElement.classList.add('boatContainerPlaced');
 };
 
 // get locations and data on all ships placed by user
-function placeShips(player) {
-  const boatContainers = document.getElementsByClassName('boatContainerArray');
+function placeShip(player) {
+  const boatContainer = document.getElementsByClassName('boatContainerPlaced');
   const { shipObjectArray } = player;
 
-  // iterate over boatContainers
-  for (let i = 0; i < 5; i++) {
-    const currentContainer = boatContainers[0];
-    const containerParent = currentContainer.parentElement;
-    const spaceLocation = checkSpaceLocation(containerParent);
-    const placeI = parseInt(spaceLocation[0], 10);
-    const placeJ = parseInt(spaceLocation[1], 10);
-    const direction = getShipDirection(currentContainer);
+  const currentContainer = boatContainer[0];
+  const containerParent = currentContainer.parentElement;
+  const spaceLocation = checkSpaceLocation(containerParent);
+  const placeI = parseInt(spaceLocation[0], 10);
+  const placeJ = parseInt(spaceLocation[1], 10);
+  const direction = getShipDirection(currentContainer);
 
-    const shipName = currentContainer.id;
-    for (const ship in shipObjectArray) {
-      const currentShip = shipObjectArray[ship];
-      if (shipName === currentShip.shipName) {
-        try {
-          player.playerBoard.isValidPlacement(currentShip, direction, placeI, placeJ);
+  const shipName = currentContainer.id;
+  for (const ship in shipObjectArray) {
+    const currentShip = shipObjectArray[ship];
+    if (shipName === currentShip.shipName) {
+      try {
+        player.playerBoard.isValidPlacement(currentShip, direction, placeI, placeJ);
         //   console.log(currentShip);
-        } catch (err) {
-          console.log(err);
-          return;
-        }
+      } catch (err) {
+        console.log(err);
+        return;
       }
-    }
-    for (const ship in shipObjectArray) {
-      const currentShip = shipObjectArray[ship];
-      if (shipName === currentShip.shipName) {
-        player.playerBoard.placeShip(currentShip, direction, placeI, placeJ);
-        containerParent.removeChild(currentContainer);
-      }
+      player.playerBoard.placeShip(currentShip, direction, placeI, placeJ);
+      containerParent.removeChild(currentContainer);
     }
   }
   removeBoard('self');
@@ -403,9 +397,9 @@ function addBoatSelection(player) {
   // add button to set ships
   const placeShipsButton = document.createElement('button');
   placeShipsButton.addEventListener('click', () => {
-    placeShips(player);
+    placeShip(player);
   });
-  placeShipsButton.textContent = 'Set Ships';
+  placeShipsButton.textContent = 'Save Ship Placement';
   contentContainer.appendChild(placeShipsButton);
 }
 
