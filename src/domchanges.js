@@ -254,6 +254,42 @@ window.drop = function (ev) {
   shipElement.classList.add('boatContainerPlaced');
 };
 
+// change changePlayerTurnButton visibility
+function changePlayerButtonVisibility() {
+  const changePlayerTurnButton = document.getElementById('changePlayerTurnButton');
+
+  if (changePlayerTurnButton.classList.contains('hidden')) {
+    changePlayerTurnButton.classList.remove('hidden');
+  } else {
+    changePlayerTurnButton.classList.add('hidden');
+  }
+}
+
+// check if any boat selections are still available
+function checkBoatSelections() {
+  const boatSelection = document.getElementById('boatSelection');
+  const selectionsLeft = boatSelection.childElementCount;
+
+  if (selectionsLeft === 0) {
+    const contentContainer = document.getElementById('contentContainer');
+    contentContainer.removeChild(boatSelection);
+
+    const placeShipButton = document.getElementById('placeShip');
+    contentContainer.removeChild(placeShipButton);
+
+    changePlayerButtonVisibility();
+  }
+}
+
+// remove boatContainer class elements
+function removeBoatSelection(boatName) {
+  const boatNameElement = document.getElementById(`${boatName}Label`);
+  const boatElementSelection = boatNameElement.parentElement;
+
+  const boatSelection = document.getElementById('boatSelection');
+  boatSelection.removeChild(boatElementSelection);
+}
+
 // get locations and data on all ships placed by user
 function placeShip(player) {
   const boatContainer = document.getElementsByClassName('boatContainerPlaced');
@@ -279,6 +315,7 @@ function placeShip(player) {
       }
       player.playerBoard.placeShip(currentShip, direction, placeI, placeJ);
       containerParent.removeChild(currentContainer);
+      removeBoatSelection(shipName);
     }
   }
   removeBoard('self');
@@ -332,15 +369,15 @@ function addPlayerBoards(player, whichPlayer) {
 }
 
 // get opponent type from form
-// function getOpponent() {
-//   const opponentType = document.querySelector("input[name='opponentType']:checked").value;
-//   if (opponentType === 'true') {
-//     const humanPlayer = new Player('Player 2');
-//     return humanPlayer;
-//   }
-//   const computerPlayer = new Player('Computer');
-//   return computerPlayer;
-// }
+function getOpponent() {
+  const opponentType = document.querySelector("input[name='opponentType']:checked").value;
+  if (opponentType === 'true') {
+    const humanPlayer = new Player('Player 2');
+    return humanPlayer;
+  }
+  const computerPlayer = new Player('Computer');
+  return computerPlayer;
+}
 
 // change direction of boat selection on click
 function changeDirection(boatContainerArray) {
@@ -361,9 +398,14 @@ function addBoatSelection(player) {
 
   // add ships to DOM
   const contentContainer = document.getElementById('contentContainer');
-  const boatSelection = document.createElement('div');
-  boatSelection.setAttribute('id', 'boatSelection');
-  contentContainer.appendChild(boatSelection);
+
+  let boatSelection = document.getElementById('boatSelection');
+  if (!boatSelection) {
+    boatSelection = document.createElement('div');
+    boatSelection.setAttribute('id', 'boatSelection');
+    contentContainer.appendChild(boatSelection);
+  }
+
   for (const boat in playerShips) {
     const currentBoat = playerShips[boat];
     const boatArray = currentBoat.returnArray();
@@ -389,54 +431,94 @@ function addBoatSelection(player) {
     }
     const boatName = document.createElement('div');
     boatName.textContent = shipName;
+    boatName.setAttribute('id', `${shipName}Label`);
     boatDiv.appendChild(boatArrayContainer);
     boatDiv.appendChild(boatName);
     boatSelection.appendChild(boatDiv);
   }
 
   // add button to set ships
-  const placeShipsButton = document.createElement('button');
-  placeShipsButton.addEventListener('click', () => {
-    placeShip(player);
-  });
-  placeShipsButton.textContent = 'Save Ship Placement';
-  contentContainer.appendChild(placeShipsButton);
+  let placeShipsButton = document.getElementById('placeShip');
+  if (placeShipsButton) {
+    placeShipsButton.replaceWith(placeShipsButton.cloneNode(true));
+    placeShipsButton = document.getElementById('placeShip');
+    placeShipsButton.addEventListener('click', () => {
+      placeShip(player);
+      console.log('hi');
+    });
+  } else {
+    placeShipsButton = document.createElement('button');
+    placeShipsButton.setAttribute('id', 'placeShip');
+    placeShipsButton.textContent = 'Save Ship Placement';
+    contentContainer.appendChild(placeShipsButton);
+    placeShipsButton.addEventListener('click', () => {
+      placeShip(player);
+    });
+  }
+}
+
+// create game loop to let players place ships and play game
+function gameLoop(playerOne, playerTwo, gameStage) {
+  //   contentContainer.appendChild(changePlayerTurnButton);
+  const contentContainer = document.getElementById('contentContainer');
+  const changePlayerTurnButton = document.getElementById('changePlayerTurnButton');
+
+  if (gameStage < 10) {
+    if (gameStage === 0) {
+      addPlayerBoards(playerOne, 'self');
+      addBoatSelection(playerOne);
+      contentContainer.appendChild(changePlayerTurnButton);
+    } else if (gameStage === 1) {
+      removeBoard('self');
+      addPlayerBoards(playerTwo, 'self');
+      addBoatSelection(playerTwo);
+    } else if (gameStage === 2) {
+      checkBoatSelections();
+      removeBoard('self');
+      addPlayerBoards(playerOne, 'self');
+      addPlayerBoards(playerTwo, 'opponent');
+    } else if (gameStage % 2 === 0) {
+      removeBoard('self');
+      removeBoard('opponent');
+      addPlayerBoards(playerOne, 'self');
+      addPlayerBoards(playerTwo, 'opponent');
+    } else if (gameStage % 2 === 1) {
+      removeBoard('self');
+      removeBoard('opponent');
+      addPlayerBoards(playerTwo, 'self');
+      addPlayerBoards(playerOne, 'opponent');
+    }
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
   const playerOne = Player('Player 1');
-  //   const playerBoardOne = playerOne.playerBoard;
-  //   const playerTwo = getOpponent();
+  const playerTwo = getOpponent();
   //   const playerBoardTwo = playerTwo.playerBoard;
 
+  // add the game container
   addGameContainers();
-  addPlayerBoards(playerOne, 'self');
-  addBoatSelection(playerOne);
 
-  //   playerOne.createPlayerShips();
-  //   playerTwo.createPlayerShips();
-  //   const playerOneShips = playerOne.shipObjectArray;
-  //   const playerTwoShips = playerTwo.shipObjectArray;
-  //   const smallShip = playerOneShips[0];
-  //   const shortShip = playerTwoShips[0];
-  //   const longShip = playerOneShips[2];
-  //   const bigShip = playerTwoShips[2];
-  //   const medShip = playerTwoShips[1];
-  //   playerBoardOne.placeShip(smallShip, 'h', 4, 5);
-  //   playerBoardOne.placeShip(longShip, 'v', 7, 3);
-  //   playerBoardTwo.placeShip(shortShip, 'h', 4, 5);
-  //   playerBoardTwo.placeShip(bigShip, 'h', 3, 3);
-  //   playerBoardTwo.placeShip(medShip, 'v', 0, 0);
-  //   playerBoardOne.receiveAttack(1, 5);
-  //   playerBoardOne.receiveAttack(4, 5);
-  //   playerBoardOne.receiveAttack(5, 5);
-  //   playerBoardOne.receiveAttack(3, 4);
-  //   playerBoardTwo.receiveAttack(1, 5);
-  //   playerBoardTwo.receiveAttack(4, 5);
-  //   playerBoardTwo.receiveAttack(5, 5);
-  //   playerBoardTwo.receiveAttack(3, 4);
-//   addPlayerBoards(playerTwo, 'opponent');
+  // add button to change turns
+  const contentContainer = document.getElementById('contentContainer');
+  const changePlayerTurnButton = document.createElement('button');
+  changePlayerTurnButton.textContent = 'Complete Turn';
+  changePlayerTurnButton.setAttribute('id', 'changePlayerTurnButton');
+
+  changePlayerTurnButton.addEventListener('click', () => {
+    gameStage++;
+    console.log(gameStage);
+    gameLoop(playerOne, playerTwo, gameStage);
+  });
+
+  contentContainer.appendChild(changePlayerTurnButton);
+
+  // eslint-disable-next-line prefer-const
+  let gameStage = 0;
+
+  // begin game loop
+  gameLoop(playerOne, playerTwo, gameStage);
 };
 
 export { createGameForm, typeText };
