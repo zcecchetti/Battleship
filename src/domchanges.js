@@ -288,6 +288,7 @@ function removeBoatSelection(boatName) {
 
   const boatSelection = document.getElementById('boatSelection');
   boatSelection.removeChild(boatElementSelection);
+  checkBoatSelections();
 }
 
 // get locations and data on all ships placed by user
@@ -438,56 +439,36 @@ function addBoatSelection(player) {
   }
 
   // add button to set ships
-  let placeShipsButton = document.getElementById('placeShip');
-  if (placeShipsButton) {
-    placeShipsButton.replaceWith(placeShipsButton.cloneNode(true));
-    placeShipsButton = document.getElementById('placeShip');
-    placeShipsButton.addEventListener('click', () => {
-      placeShip(player);
-      console.log('hi');
-    });
-  } else {
-    placeShipsButton = document.createElement('button');
-    placeShipsButton.setAttribute('id', 'placeShip');
-    placeShipsButton.textContent = 'Save Ship Placement';
-    contentContainer.appendChild(placeShipsButton);
-    placeShipsButton.addEventListener('click', () => {
-      placeShip(player);
-    });
-  }
+
+  const placeShipsButton = document.createElement('button');
+  placeShipsButton.setAttribute('id', 'placeShip');
+  placeShipsButton.textContent = 'Save Ship Placement';
+  contentContainer.appendChild(placeShipsButton);
+  placeShipsButton.addEventListener('click', () => {
+    placeShip(player);
+  });
 }
 
 // create game loop to let players place ships and play game
 function gameLoop(playerOne, playerTwo, gameStage) {
-  //   contentContainer.appendChild(changePlayerTurnButton);
-  const contentContainer = document.getElementById('contentContainer');
-  const changePlayerTurnButton = document.getElementById('changePlayerTurnButton');
-
-  if (gameStage < 10) {
-    if (gameStage === 0) {
-      addPlayerBoards(playerOne, 'self');
-      addBoatSelection(playerOne);
-      contentContainer.appendChild(changePlayerTurnButton);
-    } else if (gameStage === 1) {
-      removeBoard('self');
-      addPlayerBoards(playerTwo, 'self');
-      addBoatSelection(playerTwo);
-    } else if (gameStage === 2) {
-      checkBoatSelections();
-      removeBoard('self');
-      addPlayerBoards(playerOne, 'self');
-      addPlayerBoards(playerTwo, 'opponent');
-    } else if (gameStage % 2 === 0) {
-      removeBoard('self');
-      removeBoard('opponent');
-      addPlayerBoards(playerOne, 'self');
-      addPlayerBoards(playerTwo, 'opponent');
-    } else if (gameStage % 2 === 1) {
-      removeBoard('self');
-      removeBoard('opponent');
-      addPlayerBoards(playerTwo, 'self');
-      addPlayerBoards(playerOne, 'opponent');
-    }
+  if (gameStage === 0) {
+    addPlayerBoards(playerOne, 'self');
+    addBoatSelection(playerOne);
+    //   contentContainer.appendChild(changePlayerTurnButton);
+  } else if (gameStage === 1) {
+    removeBoard('self');
+    addPlayerBoards(playerTwo, 'self');
+    addBoatSelection(playerTwo);
+  } else if (gameStage % 2 === 0) {
+    removeBoard('self');
+    removeBoard('opponent');
+    addPlayerBoards(playerOne, 'self');
+    addPlayerBoards(playerTwo, 'opponent');
+  } else if (gameStage % 2 === 1) {
+    removeBoard('self');
+    removeBoard('opponent');
+    addPlayerBoards(playerTwo, 'self');
+    addPlayerBoards(playerOne, 'opponent');
   }
 }
 
@@ -495,13 +476,12 @@ function gameLoop(playerOne, playerTwo, gameStage) {
 window.startGameplay = function () {
   const playerOne = Player('Player 1');
   const playerTwo = getOpponent();
-  //   const playerBoardTwo = playerTwo.playerBoard;
 
   // add the game container
   addGameContainers();
 
   // add button to change turns
-  const contentContainer = document.getElementById('contentContainer');
+  const bigContainer = document.getElementById('bigContainer');
   const changePlayerTurnButton = document.createElement('button');
   changePlayerTurnButton.textContent = 'Complete Turn';
   changePlayerTurnButton.setAttribute('id', 'changePlayerTurnButton');
@@ -512,7 +492,7 @@ window.startGameplay = function () {
     gameLoop(playerOne, playerTwo, gameStage);
   });
 
-  contentContainer.appendChild(changePlayerTurnButton);
+  bigContainer.appendChild(changePlayerTurnButton);
 
   // eslint-disable-next-line prefer-const
   let gameStage = 0;
