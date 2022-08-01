@@ -201,6 +201,10 @@ function attackSpace(player, space, whichPlayer) {
   if (whichPlayer === 'self') {
     return;
   }
+  const changeButton = document.getElementById('changePlayerTurnButton');
+  if (!changeButton.classList.contains('hidden')) {
+    return;
+  }
   try {
     playerBoard.receiveAttack(attackI, attackJ);
     removeBoard(whichPlayer);
@@ -209,6 +213,7 @@ function attackSpace(player, space, whichPlayer) {
     if (hasLost) {
       alert(`${player.userName} Loses!`);
     }
+    changePlayerButtonVisibility();
   } catch {
   }
 }
@@ -349,9 +354,10 @@ function addPlayerBoards(player, whichPlayer) {
   if (whichPlayer === 'self') {
     const playerBoard = document.getElementById('playerBoard');
     playerBoardDiv.setAttribute('id', 'playerBoardContainer');
+    const boardTitle = player.userName;
 
     const playerName = document.createElement('div');
-    playerName.textContent = 'Your Board';
+    playerName.textContent = `${boardTitle}'s Board`;
     playerName.classList.add('playerNames');
 
     playerBoard.appendChild(playerName);
@@ -454,7 +460,6 @@ function gameLoop(playerOne, playerTwo, gameStage) {
   if (gameStage === 0) {
     addPlayerBoards(playerOne, 'self');
     addBoatSelection(playerOne);
-    //   contentContainer.appendChild(changePlayerTurnButton);
   } else if (gameStage === 1) {
     removeBoard('self');
     addPlayerBoards(playerTwo, 'self');
@@ -485,11 +490,13 @@ window.startGameplay = function () {
   const changePlayerTurnButton = document.createElement('button');
   changePlayerTurnButton.textContent = 'Complete Turn';
   changePlayerTurnButton.setAttribute('id', 'changePlayerTurnButton');
+  changePlayerTurnButton.classList.add('hidden');
 
   changePlayerTurnButton.addEventListener('click', () => {
     gameStage++;
     console.log(gameStage);
     gameLoop(playerOne, playerTwo, gameStage);
+    changePlayerButtonVisibility();
   });
 
   bigContainer.appendChild(changePlayerTurnButton);
