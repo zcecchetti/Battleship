@@ -147,8 +147,10 @@ function removeBoard(whichPlayer) {
       opponentBoard.removeChild(opponentBoardContainer);
 
       const playerNames = document.getElementsByClassName('playerNames');
-      const playerName = playerNames[1];
-      opponentBoard.removeChild(playerName);
+      while (playerNames.length > 0) {
+        const playerName = playerNames[0];
+        opponentBoard.removeChild(playerName);
+      }
     }
   } catch {
   }
@@ -207,7 +209,7 @@ function attackSpace(player, space, whichPlayer) {
   }
   try {
     playerBoard.receiveAttack(attackI, attackJ);
-    removeBoard(whichPlayer);
+    removeBoard('opponent');
     addPlayerBoards(player, whichPlayer);
     const hasLost = player.isLoser();
     if (hasLost) {
@@ -472,8 +474,14 @@ function gameLoop(playerOne, playerTwo, gameStage) {
   } else if (gameStage % 2 === 1) {
     removeBoard('self');
     removeBoard('opponent');
-    addPlayerBoards(playerTwo, 'self');
-    addPlayerBoards(playerOne, 'opponent');
+    if (playerTwo.userName === 'Computer') {
+      playerOne.computerHit();
+      addPlayerBoards(playerOne, 'self');
+      changePlayerButtonVisibility();
+    } else {
+      addPlayerBoards(playerTwo, 'self');
+      addPlayerBoards(playerOne, 'opponent');
+    }
   }
 }
 
@@ -494,7 +502,6 @@ window.startGameplay = function () {
 
   changePlayerTurnButton.addEventListener('click', () => {
     gameStage++;
-    console.log(gameStage);
     gameLoop(playerOne, playerTwo, gameStage);
     changePlayerButtonVisibility();
   });
