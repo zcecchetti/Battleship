@@ -463,8 +463,15 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     addBoatSelection(playerOne);
   } else if (gameStage === 1) {
     removeBoard('self');
-    addPlayerBoards(playerTwo, 'self');
-    addBoatSelection(playerTwo);
+    if (playerTwo.userName === 'Computer') {
+      playerTwo.computerShipSet();
+      console.log(playerTwo.showPlayerBoard());
+      gameStage++;
+      gameLoop(playerOne, playerTwo, gameStage);
+    } else {
+      addPlayerBoards(playerTwo, 'self');
+      addBoatSelection(playerTwo);
+    }
   } else if (gameStage % 2 === 0) {
     removeBoard('self');
     removeBoard('opponent');

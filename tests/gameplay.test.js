@@ -80,4 +80,9 @@ describe('Tests the player factory function methods and attributes', () => {
   test('Checks that computerHit will attack random spot that has not been selected', () => {
     expect(playerOne.computerHit()).toBe(true);
   });
+
+  const playerThree = Player();
+  test('Checks that computerShipSet will place all ships in shipArray in playerBoard', () => {
+    expect(playerThree.computerShipSet()).toBe(true);
+  });
 });

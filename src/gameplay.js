@@ -1,3 +1,6 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-console */
+/* eslint-disable no-plusplus */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable func-names */
 /* eslint-disable no-restricted-syntax */
@@ -21,7 +24,7 @@ const Player = function (playerName) {
   const playerBoardArray = playerBoard.createBoard();
   const shipObjectArray = [];
 
-  // create 3 ships for player
+  // create ships for player
   function createPlayerShips() {
     const destroyer = createShip(2, 'Destroyer');
     const submarine = createShip(3, 'Submarine');
@@ -72,6 +75,37 @@ const Player = function (playerName) {
     }
     return true;
   };
+
+  const computerShipSet = function () {
+    let placedShips = false;
+    createPlayerShips();
+    for (const ship in shipObjectArray) {
+      const currentShip = shipObjectArray[ship];
+      let randomi;
+      let randomj;
+      let randomDirection;
+      let placedShip = false;
+      while (placedShip === false) {
+        randomi = Math.floor(Math.random() * 10);
+        randomj = Math.floor(Math.random() * 10);
+        randomDirection = Math.floor(Math.random() * 2);
+        if (randomDirection > 0) {
+          randomDirection = 'h';
+        } else {
+          randomDirection = 'v';
+        }
+        try {
+          playerBoard.isValidPlacement(currentShip, randomDirection, randomi, randomj);
+          playerBoard.placeShip(currentShip, randomDirection, randomi, randomj);
+          placedShip = true;
+        } catch {
+          continue;
+        }
+      }
+    }
+    placedShips = true;
+    return placedShips;
+  };
   return {
     userName,
     playerBoard,
@@ -81,6 +115,7 @@ const Player = function (playerName) {
     showPlayerBoard,
     showOpponentView,
     computerHit,
+    computerShipSet,
   };
 };
 
