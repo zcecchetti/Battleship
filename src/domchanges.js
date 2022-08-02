@@ -146,10 +146,9 @@ function removeBoard(whichPlayer) {
       const opponentBoardContainer = document.getElementById('opponentBoardContainer');
       opponentBoard.removeChild(opponentBoardContainer);
 
-      const playerNames = document.getElementsByClassName('playerNames');
-      while (playerNames.length > 0) {
-        const playerName = playerNames[0];
-        opponentBoard.removeChild(playerName);
+      //   const playerNames = document.getElementsByClassName('playerNames');
+      while (opponentBoard.firstChild) {
+        opponentBoard.removeChild(opponentBoard.firstChild);
       }
     }
   } catch {
