@@ -193,6 +193,11 @@ function checkSpaceLocation(space) {
   return spaceLocation;
 }
 
+// announce winner
+// function announceWinner(player) {
+
+// }
+
 // attack space if selected
 function attackSpace(player, space, whichPlayer) {
   const { playerBoard } = player;
@@ -315,9 +320,7 @@ function placeShip(player) {
     if (shipName === currentShip.shipName) {
       try {
         player.playerBoard.isValidPlacement(currentShip, direction, placeI, placeJ);
-        //   console.log(currentShip);
       } catch (err) {
-        console.log(err);
         return;
       }
       player.playerBoard.placeShip(currentShip, direction, placeI, placeJ);
@@ -465,9 +468,9 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     removeBoard('self');
     if (playerTwo.userName === 'Computer') {
       playerTwo.computerShipSet();
-      console.log(playerTwo.showPlayerBoard());
-      gameStage++;
-      gameLoop(playerOne, playerTwo, gameStage);
+      changePlayerButtonVisibility();
+      const changeButton = document.getElementById('changePlayerTurnButton');
+      changeButton.click();
     } else {
       addPlayerBoards(playerTwo, 'self');
       addBoatSelection(playerTwo);
@@ -482,6 +485,7 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     removeBoard('opponent');
     if (playerTwo.userName === 'Computer') {
       playerOne.computerHit();
+      console.log('hit');
       addPlayerBoards(playerOne, 'self');
       changePlayerButtonVisibility();
     } else {
