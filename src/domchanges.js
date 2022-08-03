@@ -90,8 +90,9 @@ function createGameForm() {
 
   const startGame = document.createElement('button');
   startGame.setAttribute('type', 'submit');
+  startGame.setAttribute('form', 'gameForm');
   startGame.textContent = 'Start Game';
-  newGameForm.appendChild(startGame);
+  formContainer.appendChild(startGame);
 }
 
 function addGameContainers() {
@@ -198,6 +199,22 @@ function checkSpaceLocation(space) {
 
 // }
 
+// announce hit or sink
+function announceEvent(player, i, j) {
+  const playerArray = player.showPlayerBoard();
+  const row = playerArray[j];
+  const space = row[i];
+  if (space === 'M') {
+    return;
+  } if (space.index === 'H') {
+    console.log('You hit a ship!');
+  } else if (space.index === 'S') {
+    const { shipName } = space.object;
+    const playerName = player.userName;
+    console.log(`You sunk ${playerName}'s ${shipName}!`);
+  }
+}
+
 // attack space if selected
 function attackSpace(player, space, whichPlayer) {
   const { playerBoard } = player;
@@ -215,6 +232,8 @@ function attackSpace(player, space, whichPlayer) {
     playerBoard.receiveAttack(attackI, attackJ);
     removeBoard('opponent');
     addPlayerBoards(player, whichPlayer);
+    // announce successful hit
+    announceEvent(player, attackI, attackJ);
     const hasLost = player.isLoser();
     if (hasLost) {
       alert(`${player.userName} Loses!`);
@@ -485,7 +504,6 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     removeBoard('opponent');
     if (playerTwo.userName === 'Computer') {
       playerOne.computerHit();
-      console.log('hit');
       addPlayerBoards(playerOne, 'self');
       changePlayerButtonVisibility();
     } else {

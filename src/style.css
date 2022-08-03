@@ -34,7 +34,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow-x: auto;
+    overflow: auto;
     height: 100%;
     margin: 1rem;
     gap: 5vh;
@@ -42,6 +42,9 @@ html, body {
 
 #greetingContainer {
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
 }
 
 #greeting {
@@ -52,7 +55,9 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
     width: max-content;
+    scroll-snap-type: x mandatory;
 }
 
 #controls {
@@ -79,7 +84,7 @@ html, body {
 }
 
 .B {
-    background-color: aquamarine;
+    background-color: rgb(93, 111, 122);
 }
 
 .selected {
@@ -143,7 +148,7 @@ html, body {
 
     .boards {
         height: 30rem;
-        width: 50rem;
+        width: 45rem;
         margin: 2rem calc(50vw - 25rem);
         gap: 1rem;
     }
@@ -158,10 +163,10 @@ html, body {
         font-size: 2rem;
     }
 
-    .spaceDiv, .boatSelectionSpace {
+    .spaceDiv {
         height: 3rem;
-        width: 5rem;
-        border-right: 1px solid blue;
+        width: 4.5rem;
+        border-right: 1px solid rgb(125, 145, 156);
     }
 
     .spaceDiv:last-child {
@@ -174,22 +179,25 @@ html, body {
 
     .boardRow {
         display: flex;
-        border-bottom: 1.25px solid blue;
-        border-left: 1.25px solid blue;
-        border-right: 1.25px solid blue;
+        border-bottom: 1.5px solid rgb(125, 145, 156);
+        border-left: 1.5px solid rgb(125, 145, 156);
+        border-right: 1.5px solid rgb(125, 145, 156);
     }
 
     .boatSelectionSpace {
-        border-bottom: 1.25px solid blue;
-        border-top: 1.25px solid blue;
+        height: 3.09rem;
+        width: 4.49rem;
+        border-right: 1px solid blue;
+        border-bottom: 1.5px solid blue;
+        border-top: 1.5px solid blue;
     }
 
     .boardRow:first-child {
-        border-top: 1.25px solid blue;
+        border-top: 1.5px solid rgb(125, 145, 156);
     }
 
     .boatContainerArray:first-child {
-        border-left: 1.25px solid blue;
+        border-left: 1.5px solid blue;
     }
 
     #controls {
@@ -216,6 +224,11 @@ html, body {
         justify-content: space-evenly;
         align-items: center;
         font-size: 1.25rem;
+    }
+
+    button {
+        width: 250px;
+        margin: auto;
     }
 
 }
