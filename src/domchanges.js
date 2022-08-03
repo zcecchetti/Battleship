@@ -346,6 +346,24 @@ function placeShip(player) {
   addPlayerBoards(player, 'self');
 }
 
+// add cover to playerBoards when changing turns
+function addCover() {
+  const playerBoardContainer = document.getElementById('playerBoardContainer');
+  const boardCover = document.createElement('div');
+  boardCover.classList.add('boardCover');
+
+  // add button to remove cover
+  const removeCover = document.createElement('button');
+  removeCover.textContent = 'Show Board';
+  boardCover.appendChild(removeCover);
+
+  removeCover.addEventListener('click', () => {
+    boardCover.classList.add('hide');
+  });
+
+  playerBoardContainer.appendChild(boardCover);
+}
+
 // add playerboards to DOM
 function addPlayerBoards(player, whichPlayer) {
   const playerArray = player.showPlayerBoard();
@@ -498,6 +516,9 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     removeBoard('opponent');
     addPlayerBoards(playerOne, 'self');
     addPlayerBoards(playerTwo, 'opponent');
+    if (playerTwo.userName !== 'Computer') {
+      addCover();
+    }
   } else if (gameStage % 2 === 1) {
     removeBoard('self');
     removeBoard('opponent');
@@ -507,6 +528,7 @@ function gameLoop(playerOne, playerTwo, gameStage) {
       changePlayerButtonVisibility();
     } else {
       addPlayerBoards(playerTwo, 'self');
+      addCover();
       addPlayerBoards(playerOne, 'opponent');
     }
   }
