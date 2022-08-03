@@ -194,11 +194,6 @@ function checkSpaceLocation(space) {
   return spaceLocation;
 }
 
-// announce winner
-// function announceWinner(player) {
-
-// }
-
 // announce hit or sink
 function announceEvent(player, i, j) {
   const playerArray = player.showPlayerBoard();
@@ -236,7 +231,7 @@ function attackSpace(player, space, whichPlayer) {
     announceEvent(player, attackI, attackJ);
     const hasLost = player.isLoser();
     if (hasLost) {
-      alert(`${player.userName} Loses!`);
+      console.log(`${player.opponent} Wins!`);
     }
     changePlayerButtonVisibility();
   } catch {
@@ -399,13 +394,17 @@ function addPlayerBoards(player, whichPlayer) {
 }
 
 // get opponent type from form
-function getOpponent() {
+function getOpponent(playerOne) {
   const opponentType = document.querySelector("input[name='opponentType']:checked").value;
   if (opponentType === 'true') {
     const humanPlayer = new Player('Player 2');
+    playerOne.opponent = 'Player 2';
+    humanPlayer.opponent = 'Player 1';
     return humanPlayer;
   }
   const computerPlayer = new Player('Computer');
+  playerOne.opponent = 'Computer';
+  computerPlayer.opponent = 'Player 1';
   return computerPlayer;
 }
 
@@ -516,7 +515,7 @@ function gameLoop(playerOne, playerTwo, gameStage) {
 // eslint-disable-next-line no-unused-vars
 window.startGameplay = function () {
   const playerOne = Player('Player 1');
-  const playerTwo = getOpponent();
+  const playerTwo = getOpponent(playerOne);
 
   // add the game container
   addGameContainers();
