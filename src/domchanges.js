@@ -98,6 +98,10 @@ function createGameForm() {
 
 // show instructions
 function showInstructions() {
+  const popupCheck = document.getElementById('popupMessage');
+  if (popupCheck) {
+    return;
+  }
   const bigContainer = document.getElementById('bigContainer');
   const popupMessage = document.createElement('div');
   popupMessage.setAttribute('id', 'popupMessage');
@@ -225,6 +229,10 @@ function removePopup() {
 
 // create popup to announce
 function popup(message) {
+  const popupCheck = document.getElementById('popupMessage');
+  if (popupCheck) {
+    return;
+  }
   const bigContainer = document.getElementById('bigContainer');
   const popupMessage = document.createElement('div');
   popupMessage.setAttribute('id', 'popupMessage');
