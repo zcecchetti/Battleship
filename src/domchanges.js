@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 /* eslint-disable no-continue */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
@@ -95,6 +96,20 @@ function createGameForm() {
   formContainer.appendChild(startGame);
 }
 
+// show instructions
+function showInstructions() {
+  const bigContainer = document.getElementById('bigContainer');
+  const popupMessage = document.createElement('div');
+  popupMessage.setAttribute('id', 'popupMessage');
+  popupMessage.classList.add('instructions');
+  //   popupMessage.classList.add('show');
+  popupMessage.textContent = `To place a ship, drag it and drop it in the desired spot. Then click "Save Ship Placement". \r\n
+  To attack a space, simply double click a spot on tbe enemie's board.`;
+  bigContainer.appendChild(popupMessage);
+
+  setTimeout(() => { removePopup(); }, 5000);
+}
+
 function addGameContainers() {
   const greetingContainer = document.getElementById('greetingContainer');
   const contentContainer = document.getElementById('contentContainer');
@@ -114,6 +129,12 @@ function addGameContainers() {
   opponentBoard.classList.add('boards');
   boardContainer.appendChild(opponentBoard);
 }
+
+// show instructions
+const instructionsButton = document.getElementById('helpButton');
+instructionsButton.addEventListener('click', () => {
+  showInstructions();
+});
 
 // check spaceDiv for value other than empty
 function checkSpaceInfo(currentSpace, spaceDiv, whichPlayer) {
@@ -315,6 +336,14 @@ window.drop = function (ev) {
   ev.target.appendChild(document.getElementById(data));
   const shipElement = document.getElementById(data);
   shipElement.classList.add('boatContainerPlaced');
+
+  const allBoats = document.getElementsByClassName('boatContainerArray');
+  for (const boat in allBoats) {
+    const currentBoat = allBoats[boat];
+    if ((currentBoat.id !== data) && (typeof (currentBoat) === 'object')) {
+      currentBoat.setAttribute('draggable', 'false');
+    }
+  }
 };
 
 // change changePlayerTurnButton visibility
@@ -531,6 +560,13 @@ function addBoatSelection(player) {
   contentContainer.appendChild(placeShipsButton);
   placeShipsButton.addEventListener('click', () => {
     placeShip(player);
+    const allBoats = document.getElementsByClassName('boatContainerArray');
+    for (const boat in allBoats) {
+      const currentBoat = allBoats[boat];
+      if ((typeof (currentBoat) === 'object')) {
+        currentBoat.setAttribute('draggable', 'true');
+      }
+    }
   });
 }
 

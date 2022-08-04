@@ -17,7 +17,8 @@ html, body {
 }
 
 #header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     justify-content: center;
     align-items: center;
     height: 10vh;
@@ -28,6 +29,16 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+#title {
+    grid-column: 2 / 3;
+    justify-self: center;
+}
+
+#helpButton {
+    width: 50px;
+    grid-column: 3 / 4;
 }
 
 #contentContainer {
@@ -146,6 +157,26 @@ html, body {
     z-index: 1;
     position: relative;
     top: -90%;
+    right: calc(-50% + 15vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5vh;
+    font-size: 1.25rem;
+}
+
+.instructions {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s linear;
+    height: 20vh;
+    width: 30vw;
+    padding: 16px;
+    background-color: rgb(218, 110, 110);
+    color: white;
+    z-index: 1;
+    position: relative;
+    top: -75%;
     right: calc(-50% + 15vw);
     display: flex;
     justify-content: center;
