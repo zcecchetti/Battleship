@@ -194,6 +194,27 @@ function checkSpaceLocation(space) {
   return spaceLocation;
 }
 
+// remove popup
+function removePopup() {
+  const bigContainer = document.getElementById('bigContainer');
+  const popupMessage = document.getElementById('popupMessage');
+  popupMessage.classList.add('hide');
+  setTimeout(() => { bigContainer.removeChild(popupMessage); }, 2500);
+}
+
+// create popup to announce
+function popup(message) {
+  const bigContainer = document.getElementById('bigContainer');
+  const popupMessage = document.createElement('div');
+  popupMessage.setAttribute('id', 'popupMessage');
+  popupMessage.classList.add('announcement');
+  //   popupMessage.classList.add('show');
+  popupMessage.textContent = message;
+  bigContainer.appendChild(popupMessage);
+
+  setTimeout(() => { removePopup(); }, 2500);
+}
+
 // announce hit or sink
 function announceEvent(player, i, j) {
   const playerArray = player.showPlayerBoard();
@@ -202,12 +223,28 @@ function announceEvent(player, i, j) {
   if (space === 'M') {
     return;
   } if (space.index === 'H') {
-    console.log('You hit a ship!');
+    popup('You hit a ship!');
   } else if (space.index === 'S') {
     const { shipName } = space.object;
     const playerName = player.userName;
-    console.log(`You sunk ${playerName}'s ${shipName}!`);
+    popup(`You sunk ${playerName}'s ${shipName}!`);
   }
+}
+
+// annouce winner
+function announceWinner(player) {
+  popup(`${player.opponent} Wins!`);
+
+  const bigContainer = document.getElementById('bigContainer');
+  const changePlayerTurnButton = document.getElementById('changePlayerTurnButton');
+  bigContainer.removeChild(changePlayerTurnButton);
+
+  const newGameButton = document.createElement('button');
+  newGameButton.textContent = 'Play Again';
+  newGameButton.addEventListener('click', () => {
+    window.location.reload();
+  });
+  bigContainer.appendChild(newGameButton);
 }
 
 // attack space if selected
@@ -227,12 +264,13 @@ function attackSpace(player, space, whichPlayer) {
     playerBoard.receiveAttack(attackI, attackJ);
     removeBoard('opponent');
     addPlayerBoards(player, whichPlayer);
-    // announce successful hit
-    announceEvent(player, attackI, attackJ);
     const hasLost = player.isLoser();
     if (hasLost) {
-      console.log(`${player.opponent} Wins!`);
+      announceWinner(player);
+      return;
     }
+    // announce successful hit
+    announceEvent(player, attackI, attackJ);
     changePlayerButtonVisibility();
   } catch {
   }
@@ -395,6 +433,7 @@ function addPlayerBoards(player, whichPlayer) {
     const playerName = document.createElement('div');
     playerName.textContent = `${boardTitle}'s Board`;
     playerName.classList.add('playerNames');
+    playerName.setAttribute('id', 'currentPlayer');
 
     playerBoard.appendChild(playerName);
     playerBoard.appendChild(playerBoardDiv);
@@ -519,6 +558,8 @@ function gameLoop(playerOne, playerTwo, gameStage) {
     if (playerTwo.userName !== 'Computer') {
       addCover();
     }
+    const contentContainer = document.getElementById('contentContainer');
+    contentContainer.scrollTo(0, 0);
   } else if (gameStage % 2 === 1) {
     removeBoard('self');
     removeBoard('opponent');
@@ -530,6 +571,8 @@ function gameLoop(playerOne, playerTwo, gameStage) {
       addPlayerBoards(playerTwo, 'self');
       addCover();
       addPlayerBoards(playerOne, 'opponent');
+      const contentContainer = document.getElementById('contentContainer');
+      contentContainer.scrollTo(0, 0);
     }
   }
 }

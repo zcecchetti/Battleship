@@ -57,7 +57,6 @@ html, body {
     align-items: center;
     height: 100%;
     width: max-content;
-    scroll-snap-type: x mandatory;
 }
 
 #controls {
@@ -134,6 +133,31 @@ html, body {
 
 .hidden {
     display: none;
+}
+
+.announcement {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s linear;
+    height: 10vh;
+    width: 30vw;
+    background-color: rgb(218, 110, 110);
+    color: white;
+    z-index: 1;
+    position: relative;
+    top: -90%;
+    right: calc(-50% + 15vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5vh;
+    font-size: 1.25rem;
+}
+
+.show {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s 1s, opacity 1s linear;
 }
 
 @media screen and (max-width: 600px) {
