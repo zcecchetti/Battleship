@@ -102,14 +102,14 @@ function showInstructions() {
   if (popupCheck) {
     return;
   }
-  const bigContainer = document.getElementById('bigContainer');
+  const body = document.getElementById('body');
   const popupMessage = document.createElement('div');
   popupMessage.setAttribute('id', 'popupMessage');
   popupMessage.classList.add('instructions');
   //   popupMessage.classList.add('show');
   popupMessage.textContent = `To place a ship, drag it and drop it in the desired spot. Then click "Save Ship Placement". \r\n
   To attack a space, simply double click a spot on tbe enemie's board.`;
-  bigContainer.appendChild(popupMessage);
+  body.appendChild(popupMessage);
 
   setTimeout(() => { removePopup(); }, 5000);
 }
@@ -221,10 +221,10 @@ function checkSpaceLocation(space) {
 
 // remove popup
 function removePopup() {
-  const bigContainer = document.getElementById('bigContainer');
+  const body = document.getElementById('body');
   const popupMessage = document.getElementById('popupMessage');
   popupMessage.classList.add('hide');
-  setTimeout(() => { bigContainer.removeChild(popupMessage); }, 2500);
+  setTimeout(() => { body.removeChild(popupMessage); }, 2500);
 }
 
 // create popup to announce
@@ -233,13 +233,13 @@ function popup(message) {
   if (popupCheck) {
     return;
   }
-  const bigContainer = document.getElementById('bigContainer');
+  const body = document.getElementById('body');
   const popupMessage = document.createElement('div');
   popupMessage.setAttribute('id', 'popupMessage');
   popupMessage.classList.add('announcement');
   //   popupMessage.classList.add('show');
   popupMessage.textContent = message;
-  bigContainer.appendChild(popupMessage);
+  body.appendChild(popupMessage);
 
   setTimeout(() => { removePopup(); }, 2500);
 }
